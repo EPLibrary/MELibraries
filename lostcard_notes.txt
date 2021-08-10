@@ -1,0 +1,52 @@
+-Lost card wizard - moves all their account data over to the new card.
+
+-Metro server doesn't know what a lost card is.
+
+
+
+-In the welcome page, search for a hash that matches the one we just generated.
+
+-In the "customer" array, change alternate ID to the other card number that matches our hash
+-Set ISLOSTCARD="Y"
+
+When updating/creating accounts, the metro server will do its thing with this data
+
+-Response code returned.
+
+
+Daisy
+
+Grab $650 today from the bank.
+
+Feb 26	2 men & truck $142/hr
+Feb 27  2 men & truck $161
+
+4-5 hours including drive time
+
+increments of 15 minutes
+
+from office to office
+
+
+780-453-6777 ask for Daisy
+
+
+Connie, her bro, her BFF
+Eileen
+Benita
+
+
+Samantha, Connie, Eileen,
+
+Eileen 
+
+Book elevators at CV Courts and Estates of CV
+
+-Priority Submetering
+-UHaul
+-Elevators at CV Courts
+-Elevators at EoCV
+
+
+Moving top right
+PriorityMeter.com
