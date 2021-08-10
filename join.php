@@ -287,10 +287,10 @@ if ($result->num_rows > 0) {
 			//Send an email to the customer if they have a valid email address
 			//JDL 2019-11-25 -  Set length from 5 to 599 to avoid emailing customers as email functionality is broken
 			if (strlen($_SESSION["customer"]["EMAIL"]) > 599) {
-				require_once "Mail.php";
 
 				$from = "Me Libaries <noreply@melibraries.ca>";
-				$to = $_SESSION["customer"]["FIRSTNAME"]." ".$_SESSION["customer"]["LASTNAME"]." <".$_SESSION["customer"]["EMAIL"].">";
+				$to_email = $_SESSION["customer"]["EMAIL"];
+				$to_name = $_SESSION["customer"]["FIRSTNAME"]." ".$_SESSION["customer"]["LASTNAME"];
 				$subject = 'You have joined '.$libraryComData["library_name"];
 				$body = "This is a friendly notice that the you now have joined ".$libraryComData["library_name"];
 				$body .= " and now have access to its collections with your home library card number!\n";
@@ -303,24 +303,11 @@ if ($result->num_rows > 0) {
 					$body .= "\n\nNote: Your PIN for ".$libraryComData["library_name"]." is different.\nIt has been set to ".$newNakedPin.".";
 				}
 
-				$host = "smtp.epl.ca";
+				include_once("Mail.class.php");
+				$mail_sent = Mail::send($subject, $body, $to_email, $to_name);
 
-				$headers = array (
-					'From' => $from,
-					'To' => $to,
-					'Subject' => $subject);
-					
-				$smtp = Mail::factory(
-					'smtp',
-					array (
-						'host' => $host,
-						'auth' => false)
-					);
-
-				$mail = $smtp->send($to, $headers, $body);
-
-				if (PEAR::isError($mail)) {
-				  echo("<p>" . $mail->getMessage() . "</p>");
+				if (!$mail_sent) {
+				  echo("<p>An error occured sending you an email about the following:</p>");
 				} else {
 				  echo('<p>You have been sent an email about the following:</p>');
 				}
