@@ -304,10 +304,11 @@ if ($result->num_rows > 0) {
 				}
 
 				include_once("Mail.class.php");
-				$mail_sent = Mail::send($subject, $body, $to_email, $to_name);
+				$mail = new Mail();
+				$mail_sent = $mail->send($subject, $body, $to_email, $to_name);
 
 				if (!$mail_sent) {
-				  echo("<p>An error occured sending you an email about the following:</p>");
+				  echo("<p>{$mail->error_message}</p>");
 				} else {
 				  echo('<p>You have been sent an email about the following:</p>');
 				}

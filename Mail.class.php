@@ -18,6 +18,8 @@ class Mail {
     private $replyto_email = $this->from_email;
     private $replyto_name = $this->from_name;
 
+    public $error_message = "";
+
     /**
      * Send Email
      * 
@@ -55,6 +57,7 @@ class Mail {
         // handle errors
         if (!$sent) {
             error_log("PHPMailer Error: {$mail->ErrorInfo}");
+            $this->error_message = $mail->ErrorInfo;
             return false;
         }
 
