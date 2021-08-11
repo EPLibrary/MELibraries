@@ -2,7 +2,8 @@
 
 use PHPMailer\PHPMailer\PHPMailer;
 
-include_once(__PATH__ . "/vendor/phpmailer/phpmailer/src/PHPMailer.php");
+include_once("./vendor/phpmailer/phpmailer/src/PHPMailer.php");
+include_once("./vendor/phpmailer/phpmailer/src/SMTP.php");
 
 /**
  * Mail Class
@@ -15,8 +16,8 @@ class Mail {
     private $useTLS = false;
     private $from_email = "noreply@melibraries.ca";
     private $from_name = "Me Libraries";
-    private $replyto_email = $this->from_email;
-    private $replyto_name = $this->from_name;
+    private $replyto_email = "noreply@melibraries.ca";
+    private $replyto_name = "Me Libraries";
 
     public $error_message = "";
 
@@ -43,8 +44,8 @@ class Mail {
 
         // configure mail recipients
         $mail->setFrom($this->from_email, $this->from_name);
-        $mail->setReplyTo($this->replyto_email, $this->replyto_name);
-        $mail->setAddress($to_email, $to_name);
+        $mail->addReplyTo($this->replyto_email, $this->replyto_name);
+        $mail->addAddress($to_email, $to_name);
 
         // configure mail content
         $mail->isHTML(true);
