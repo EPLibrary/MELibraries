@@ -285,8 +285,7 @@ if ($result->num_rows > 0) {
 
 			
 			//Send an email to the customer if they have a valid email address
-			//JDL 2019-11-25 -  Set length from 5 to 599 to avoid emailing customers as email functionality is broken
-			if (strlen($_SESSION["customer"]["EMAIL"]) > 599) {
+			if (strlen($_SESSION["customer"]["EMAIL"]) > 5) {
 
 				$from = "Me Libaries <noreply@melibraries.ca>";
 				$to_email = $_SESSION["customer"]["EMAIL"];
