@@ -302,12 +302,18 @@ if ($result->num_rows > 0) {
 					$body .= "\n\nNote: Your PIN for ".$libraryComData["library_name"]." is different.\nIt has been set to ".$newNakedPin.".";
 				}
 
-				include_once("Mail.class.php");
-				$mail = new Mail();
-				$mail_sent = $mail->send($subject, $body, $to_email, $to_name);
+				try {
+					include_once("Mail.class.php");
+					$mail = new Mail();
+					$mail_sent = $mail->send($subject, $body, $to_email, $to_name);
+					$mail_error = $mail->error_message;
+				} catch (Exception $e) {
+					$mail_sent = false;
+					$mail_error = $e->getMessage();
+				}
 
 				if (!$mail_sent) {
-				  echo("<p>{$mail->error_message}</p>");
+				  echo("<p>$mail_error</p>");
 				} else {
 				  echo('<p>You have been sent an email about the following:</p>');
 				}
