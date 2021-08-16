@@ -10,3 +10,9 @@ This project is open source under the Apache License 2.0 and is
 copyright Edmonton Public Library, 2013.
 
 July 18, 2013
+
+## Installation
+
+This repository uses [Composer](https://getcomposer.org/) for dependency management. 
+
+Run `composer install` to install the required vendor libraries such as PHPMailer.
