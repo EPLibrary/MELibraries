@@ -275,55 +275,48 @@ if ($result->num_rows > 0) {
 		$newPin = preg_replace("/^ ?(\d+)[\a\s:](.*)/", '<span class="pin">$1</span><span class="libMessage">$2</span>', $serverReply["responseMessage"]);
 		$newNakedPin = preg_replace("/^ ?(\d+)[\a\s:](.*)/", '$1', $serverReply["responseMessage"]);
 		echo '<h2 class="green" style="clear:both;">';
-		if ($hasMembership) {
-			echo "Thanks for the update.</h2>";
-			$pinMessage =  "<span style=\"color:red;\">Note:</span> your PIN for ".$libraryComData["library_name"]." has been changed to <b>$newPin</b>";
-		} else {
-			echo 'Welcome to the '.$libraryComData["library_name"].'.</h2>';
-			$pinMessage = '<span style=\"color:red;\">Note:</span> your PIN for this library is different.<br />';
-			$pinMessage.= 'Your pin for '.$libraryComData["library_name"].' has been set to: '.$newPin;
 
-			
-			//Send an email to the customer if they have a valid email address
-			if (strlen($_SESSION["customer"]["EMAIL"]) > 5) {
-
-				$from = "Me Libaries <noreply@melibraries.ca>";
-				$to_email = $_SESSION["customer"]["EMAIL"];
-				$to_name = $_SESSION["customer"]["FIRSTNAME"]." ".$_SESSION["customer"]["LASTNAME"];
-				$subject = 'You have joined '.$libraryComData["library_name"];
-				$body = "This is a friendly notice that the you now have joined ".$libraryComData["library_name"];
-				$body .= " and now have access to its collections with your home library card number!\n";
-				$body .= "Visit ".$libraryComData["library_name"]." at ".$libraryComData["library_url"];
-
-				//Add a comment about the new PIN if it has been changed
-				if ($serverReply["code"] == "PIN_CHANGE_REQUIRED") {
-						
-					//$newPin is set above
-					$body .= "\n\nNote: Your PIN for ".$libraryComData["library_name"]." is different.\nIt has been set to ".$newNakedPin.".";
-				}
-
-				try {
-					include_once("Mail.class.php");
-					$mail = new Mail();
-					$mail_sent = $mail->send($subject, $body, $to_email, $to_name);
-					$mail_error = $mail->error_message;
-				} catch (Exception $e) {
-					$mail_sent = false;
-					$mail_error = $e->getMessage();
-				}
-
-				if (!$mail_sent) {
-				  echo("<p>$mail_error</p>");
-				} else {
-				  echo('<p>You have been sent an email about the following:</p>');
-				}
-			}//END - If email longer than 3 characters
-
-			
-			
-		}//End if is a new membership
+		echo 'Welcome to the '.$libraryComData["library_name"].'.</h2>';
+		$pinMessage = '<span style=\"color:red;\">Note:</span> your PIN for this library is different.<br />';
+		$pinMessage.= 'Your pin for '.$libraryComData["library_name"].' has been set to: '.$newPin;
 
 		
+		//Send an email to the customer if they have a valid email address
+		if (strlen($_SESSION["customer"]["EMAIL"]) > 5) {
+
+			$from = "Me Libaries <noreply@melibraries.ca>";
+			$to_email = $_SESSION["customer"]["EMAIL"];
+			$to_name = $_SESSION["customer"]["FIRSTNAME"]." ".$_SESSION["customer"]["LASTNAME"];
+			$subject = 'You have joined '.$libraryComData["library_name"];
+			$body = "This is a friendly notice that the you now have joined ".$libraryComData["library_name"];
+			$body .= " and now have access to its collections with your home library card number!\n";
+			$body .= "Visit ".$libraryComData["library_name"]." at ".$libraryComData["library_url"];
+
+			//Add a comment about the new PIN if it has been changed
+			if ($serverReply["code"] == "PIN_CHANGE_REQUIRED") {
+					
+				//$newPin is set above
+				$body .= "\n\nNote: Your PIN for ".$libraryComData["library_name"]." is different.\nIt has been set to ".$newNakedPin.".";
+			}
+
+			try {
+				include_once("Mail.class.php");
+				$mail = new Mail();
+				$mail_sent = $mail->send($subject, $body, $to_email, $to_name);
+				$mail_error = $mail->error_message;
+			} catch (Exception $e) {
+				$mail_sent = false;
+				$mail_error = $e->getMessage();
+			}
+
+			if (!$mail_sent) {
+			  echo("<p>$mail_error</p>");
+			} else {
+			  echo('<p>You have been sent an email about the following:</p>');
+			}
+		}//END - If email longer than 5 characters
+
+			
 		//Do database inserts for when PIN Changes is required - new user
 		if ($userExists == false) {
 			$query="INSERT INTO user (userid, home_library_record_index, date_last_activity, date_created)
