@@ -202,54 +202,54 @@ function get_library_info($barcode, $pin = null, $libraryid = null) {
 		socket_close($socket);
 
 
-
 		/* Do error handling here: no connection, invalid credentials, etc
 		OK, SUCCESS, FAIL, ERROR, UNKNOWN, BUSY, UNAVAILABLE */
 
-			/* Merge new JSON to the data I already have so I still have the library info. */
-			$resultArr=json_decode($result, true);
-			
-			//Store customer information from ME server in Session variable
-			// $_SESSION['response']=$resultArr;
-			$data['response']=$resultArr;
-			
-			$customerData=json_decode($resultArr['customer'], true);
-			// $_SESSION['customer']=$customerData;
-			$data['customer']=$customerData;
-			//echo $result;
-			//We don't do this anymore because we don't want Customer information to be held in the user agent.
-			//$data = array_merge_recursive($data, $resultArr);
-			
-			switch ($resultArr["code"]) {
-				case "FAIL";
-				case "ERROR";
-				case "UNKNOWN";
-				case "UNAVAILABLE";
-				case "UNAUTHORIZED";
-					$data["error"]=true;
-					// $_SESSION['error']=true;
-					$data["errorMsg"]=$resultArr["responseMessage"];
-					// $_SESSION['errorMsg']=$resultArr["responseMessage"];
+		/* Merge new JSON to the data I already have so I still have the library info. */
+		$resultArr=json_decode($result, true);
+		
+		//Store customer information from ME server in Session variable
+		// $_SESSION['response']=$resultArr;
+		$data['response']=$resultArr;
+		
+		$customerData=json_decode($resultArr['customer'], true);
+		// $_SESSION['customer']=$customerData;
+		$data['customer']=$customerData;
+		//echo $result;
+		//We don't do this anymore because we don't want Customer information to be held in the user agent.
+		//$data = array_merge_recursive($data, $resultArr);
+		
+		switch ($resultArr["code"]) {
+			case "FAIL";
+			case "ERROR";
+			case "UNKNOWN";
+			case "UNAVAILABLE";
+			case "UNAUTHORIZED";
+			case "USER_PIN_INVALID";
+				$data["error"]=true;
+				// $_SESSION['error']=true;
+				$data["errorMsg"]=$resultArr["responseMessage"];
+				// $_SESSION['errorMsg']=$resultArr["responseMessage"];
+				
+				//Log the unsuccessful login attempt if this is the home library
+				if (is_null($libraryid)) {
+					$query="INSERT INTO FailedLogins (CardNumber, Attempts, LastIP, LastAttemptTime) VALUES('".$barcode."', 1, '".$_SERVER['REMOTE_ADDR']."', NOW())";
 					
-					//Log the unsuccessful login attempt if this is the home library
-					if (is_null($libraryid)) {
-						$query="INSERT INTO FailedLogins (CardNumber, Attempts, LastIP, LastAttemptTime) VALUES('".$barcode."', 1, '".$_SERVER['REMOTE_ADDR']."', NOW())";
-						
-						if (mysqli_connect_errno($con))  {
-							echo "Failed to connect to MySQL: " . mysqli_connect_error();
-						}
-						$result=mysqli_query($con,$query);
-						if ( false===$result ) {
-							printf("error: %s\n", mysqli_error($con));
-						}
+					if (mysqli_connect_errno($con))  {
+						echo "Failed to connect to MySQL: " . mysqli_connect_error();
 					}
-					break;
-			}
-			
-			// $_SESSION['libraryData']=$data;
-			// $dataJSON=json_encode($data);
-			//This is the entire output of this .php if successful.
-			return $data;
+					$result=mysqli_query($con,$query);
+					if ( false===$result ) {
+						printf("error: %s\n", mysqli_error($con));
+					}
+				}
+				break;
+		}
+		
+		// $_SESSION['libraryData']=$data;
+		// $dataJSON=json_encode($data);
+		//This is the entire output of this .php if successful.
+		return $data;
 		
 		
 	/* If we can't match the card number to a library, return an error to that effect. */

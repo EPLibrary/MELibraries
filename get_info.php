@@ -199,6 +199,7 @@ if (mysqli_num_rows($result)>0) {
 			case "UNKNOWN";
 			case "UNAVAILABLE";
 			case "UNAUTHORIZED";
+			case "USER_PIN_INVALID";
 				$data["error"]=true;
 				$_SESSION['error']=true;
 				$data["errorMsg"]=$resultArr["responseMessage"];
