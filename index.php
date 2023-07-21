@@ -42,7 +42,7 @@ include 'header.php';
         <div style="text-align:center;margin-bottom:10px;">
           <!--- I'll have to put some kind of fancy spinner and a delay here --->
           <input type="submit" class="button enter" value="ENTER">
-          <img src="images/ajax-loader.gif" id="loadSpinner" />
+          <img src="images/ajax-loader.gif" id="loadSpinner" style="margin: 8px auto;"/>
         </div>
       </form>
 
