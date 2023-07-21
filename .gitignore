@@ -1,3 +1,5 @@
 # Composer Dependencies
 composer.phar
+.DS_Store
+.idea/
 /vendor
