@@ -61,13 +61,13 @@ $prevCard = '';
 $result = mysqli_query($con, $query);
 if ($result->num_rows > 0) {
     $userInfo = mysqli_fetch_assoc($result);
-    $hasMembership=true;
-    $userExists=true;
+    $hasMembership = true;
+    $userExists = true;
     // If the currently logged-in userid doesn't match the one on record for this membership, card is lost
     // We also set the old card number to a variable so we can handle the updates appropriately.
     if ($userInfo["muserid"] != $_SESSION["customer"]["ID"]) {
-      $hasLostCard=true;
-      $prevCard=$userInfo["muserid"];
+      $hasLostCard = true;
+      $prevCard = $userInfo["muserid"];
       $_SESSION["customer"]["ISLOSTCARD"] = 'Y';
       $_SESSION["customer"]["ALTERNATE_ID"] = $prevCard;
     }
@@ -78,13 +78,13 @@ if ($result->num_rows > 0) {
   $result=mysqli_query($con, $query);
   if ($result->num_rows > 0) {
     $userInfo = mysqli_fetch_assoc($result);
-    $userExists=true;
+    $userExists = true;
   }
 }
 
 /* Do Socket connection and add user to foreign library 	*/
   // Token/API Key
-  $authorityToken="55u1dqzu4tfSk2V4u5PW6VTMqi9bzt2d";
+  $authorityToken = "55u1dqzu4tfSk2V4u5PW6VTMqi9bzt2d";
   $host = $libraryComData["library_server_url"];
   $port = $libraryComData["library_server_port"];
 
@@ -114,13 +114,12 @@ if ($result->num_rows > 0) {
 
   // Connect to the server
   if ($result = socket_connect($socket, $host, $port) == false) {
-    $error=true;
-    $errorMsg="Can't connect to server $host on port $port";
+    $error = true;
+    $errorMsg = "Can't connect to server $host on port $port";
     echo('<h2>Error</h2><div class="subContent"><p class="error" style="display:inline;">'.$errorMsg.'</p><p>Please return to <a href="/">MeLibraries.ca</a>.</p></div>');
     include 'footer.php';
     exit();
   }
-
 
   // Read initial server message/ack
   if ($result = socket_read($socket, $bufferlen) == false) {
@@ -131,7 +130,6 @@ if ($result->num_rows > 0) {
   };
 
   //Testing with Card No: "21221012345678", Pin: "64058","Billy, Balzac"
-
   if ($hasMembership) {
     $message = array(
       "code" => "UPDATE_CUSTOMER",
@@ -140,7 +138,6 @@ if ($result->num_rows > 0) {
       "pin" => '',
       "customer" => json_encode($_SESSION["customer"])
       );
-
   } else {
     $message = array(
       "code" => "CREATE_CUSTOMER",
@@ -150,9 +147,9 @@ if ($result->num_rows > 0) {
       "customer" => json_encode($_SESSION["customer"])
       );
   }
+
   $message = json_encode($message);
   $message .= "\n";
-
 
   if ($_SESSION['originating_ip'] == '10.3.0.79'){
     echo '<pre class="debug">';
@@ -163,8 +160,8 @@ if ($result->num_rows > 0) {
 
   $result = (socket_write($socket, $message, strlen($message)));
   if ($result == false) {
-    $error=true;
-    $errorMsg="Could not send data to server $host";
+    $error = true;
+    $errorMsg = "Could not send data to server $host";
     echo('<div class="mainContent" id="mainContent" style="min-width:695px;"><a href="index.php" style="border:none;"><img id="meLogoTop" src="images/ME_Libraries_Logo_black.png"></a><h1 class="pageTitle">Error</h1><div class="subContent"><p class="error" style="display:inline;">'.$errorMsg.'</p><p>Please return to <a href="/">MeLibraries.ca</a>.</p></div></div>');
     include 'footer.php';
     exit();
@@ -172,8 +169,8 @@ if ($result->num_rows > 0) {
 
   $serverReply = socket_read ($socket, $bufferlen);
   if ($serverReply == false) {
-    $data["error"]=true;
-    $data["errorMsg"]="Could not read server response";
+    $data["error"] = true;
+    $data["errorMsg"] = "Could not read server response";
     $data=json_encode($data);
     die($data);
   }
@@ -186,8 +183,6 @@ if ($result->num_rows > 0) {
 
   //Close the socket
   socket_close($socket);
-
-
 
   //If the server replied that it was successful, we can do our database fun stuff.
   if ($serverReply["code"] == "SUCCESS") {
