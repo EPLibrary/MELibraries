@@ -4,9 +4,6 @@ session_start();
 $pageTitle="ME Libraries | Sign in";
 include 'header.php';
 
-
-
-
 $customerHashData=
 	//trim($customer["PIN"]) .
 	trim($_SESSION['customer']["FIRSTNAME"]) .
