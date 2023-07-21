@@ -28,10 +28,9 @@ function submitTheForm(libIdx) {
     const loadSpinner = document.getElementByClassName('loadSpinner')
     if (loadSpinner) loadSpinner.style.display = 'none'
 
-    var buttons = document.getElementsByClassName('button')
-    for (let i = 0; i < buttons.length; i++) {
-        buttons[i].style.display = 'block'
-    }
+    const buttons = document.querySelectorAll('button')
+    buttons.forEach(btn => btn.style.display = 'block')
+
     document.getElementById('spinner' + libIdx).style.display = 'block'
     document.getElementById('form' + libIdx).submit()
     document.getElementById('joinlink' + libIdx).style.display = 'none'
