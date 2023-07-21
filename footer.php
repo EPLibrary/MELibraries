@@ -2,9 +2,9 @@
 <div class="footer">
 <div class="footerText">Copyright <?php echo date("Y"); ?> | <a href="privacy.php" target="_blank">Terms &amp; Privacy Policy</a> | <a href="help.php" target="_blank">Help/FAQ</a> | <a href="participating.php" target="_blank">Participating Libraries</a>
 <?php
-	if (isset($_SESSION['customer'])) {
-		echo '| <a href="logout.php" style="font-weight:bold;">Log Out</a>';
-	}?>
+  if (isset($_SESSION['customer'])) {
+    echo '| <a href="logout.php" style="font-weight:bold;">Log Out</a>';
+  }?>
 </div>
 <a href="http://www.melibraries.ca/index.php" style="border:none;"><img src="images/ME_logo.png" style="border:none;" alt="ME Libraries" id="footerLogo" /></a>
 </div>
