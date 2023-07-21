@@ -49,7 +49,7 @@ function submitTheForm(libIdx) {
 
 
 /* Connect to the DB and get the list of libraries that the user is not already registered to. */
-include '/home/its/mysql_config.php';
+include '../melibraries-db-config.php';
 
 // Check connection
 if (mysqli_connect_errno($con))  {

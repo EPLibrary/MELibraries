@@ -30,7 +30,7 @@ include 'header.php';
 <ul>
 <?php
 	//Query for library Terms of Use pages
-	include '/home/its/mysql_config.php';
+    include '../melibraries-db-config.php';
 	$query="SELECT * FROM library WHERE disabled !=1 ORDER BY library_name";
 
 	$result = mysqli_query($con, $query);
@@ -40,7 +40,7 @@ include 'header.php';
 
 ?>
 </ul>
-<p>Please report a lost card to your home library as soon as possible. Once you have a replacement home library card, contact the other libraries you’re registered with by phone or in person to update your account(s).</p>
+<p>Please report a lost card to your home library as soon as possible. Once you have a replacement home library card, contact the other libraries youï¿½re registered with by phone or in person to update your account(s).</p>
 
 <h2>Privacy Policy</h2>
 

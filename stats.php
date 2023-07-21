@@ -4,7 +4,7 @@ $pageTitle="ME Libraries | Statistics";
 include 'header.php';
 
 /* Connect to the DB and get the list of libraries that the user is not already registered to. */
-include '/home/its/mysql_config.php';
+include '../melibraries-db-config.php';
 ?>
 <div class="mainContent" id="mainContent">
 

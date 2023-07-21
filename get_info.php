@@ -4,7 +4,7 @@ session_start();
 
 // Create connection by including a line like
 // $con=mysqli_connect("hostname","user","password","db");
-include '/home/its/mysql_config.php';
+include '../melibraries-db-config.php';
 
 // Check connection
 if (mysqli_connect_errno($con))  {
