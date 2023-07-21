@@ -6,14 +6,14 @@ include 'header.php';
 /*
 	On this page we will insert the member into the user table if they haven't been added yet.
 	After this, we will insert the membership for the library that they have just joined into the membership table
-	
+
 	There will be a component here that requires talking to the server to do.
-	Send request to create/update user, 
+	Send request to create/update user,
 	$message=array(
 		"code" => "CREATE_CUSTOMER",
 		"authorityToken" => $authorityToken,
 		"customer" => "null"
-	);	
+	);
 */
 
 ?>
@@ -32,7 +32,7 @@ include 'header.php';
 	<ul class="columns">
 			<li><a href="http://www.arrowwoodlibrary.ca/">Arrowwood Municipal Library</a></li>
 			<li><a href="http://www.barnwelllibrary.ca">Barnwell Public Library</a></li>
-			<li><a href="http://www.cardstonlibrary.ca/">Jim &amp; Mary Kearl Library of Cardston</a></li>			
+			<li><a href="http://www.cardstonlibrary.ca/">Jim &amp; Mary Kearl Library of Cardston</a></li>
 			<li><a href="http://www.carmangaylibrary.ca/">Carmangay Municipal Library</a></li>
 			<li><a href="http://www.championlibrary.ca/">Champion Municipal Library</a></li>
 			<li><a href="http://www.claresholmlibrary.ca/">Claresholm Public Library</a></li>
@@ -49,14 +49,14 @@ include 'header.php';
 			<li><a href="http://www.lethbridgepubliclibrary.ca/">Lethbridge Public Library</a></li>
 	</ul><!--columns-->
 	<ul class="columns">
-			<li><a href="http://www.lomondlibrary.ca">Lomond Library</a></li>		
-			<li><a href="http://www.magrathlibrary.ca/">Magrath Public Library</a></li>		
-			<li><a href="http://www.mfem.ca/">M&eacute;diath&egrave;que Francophone Emma Morrier</a></li>	
-			<li><a href="http://www.milkriverlibrary.ca/">Milk River Municipal Library</a></li>	
+			<li><a href="http://www.lomondlibrary.ca">Lomond Library</a></li>
+			<li><a href="http://www.magrathlibrary.ca/">Magrath Public Library</a></li>
+			<li><a href="http://www.mfem.ca/">M&eacute;diath&egrave;que Francophone Emma Morrier</a></li>
+			<li><a href="http://www.milkriverlibrary.ca/">Milk River Municipal Library</a></li>
 			<li><a href="http://www.milolibrary.ca/">Milo Municipal Library</a></li>
 			<li><a href="http://www.nantonlibrary.ca/">Nanton Thelma Fanning Library</a></li>
 			<li><a href="http://www.picturebuttelibrary.ca/">Picture Butte Municipal Library</a></li>
-			<li><a href="http://www.pinchercreeklibrary.ca/">Pincher Creek Municipal Library</a></li>	
+			<li><a href="http://www.pinchercreeklibrary.ca/">Pincher Creek Municipal Library</a></li>
 			<li><a href="http://www.raymondlibrary.ca/">Raymond Public Library</a></li>
 			<li><a href="http://www.stavelylibrary.ca/">Stavely Municipal Library</a></li>
 			<li><a href="http://www.stirlinglibrary.ca/">Stirling Theodore Brandley Library</a></li>
@@ -64,7 +64,7 @@ include 'header.php';
 			<li><a href="http://www.vauxhalllibrary.ca/">Vauxhall Public Library</a></li>
 			<li><a href="http://www.vulcanlibrary.ca/">Vulcan Municipal Library</a></li>
 			<li><a href="http://www.warnerlibrary.ca/">Warner Municipal Library</a></li>
-			<li><a href="http://www.wrenthamlibrary.ca/">Wretham Memorial Library</a></li>	
+			<li><a href="http://www.wrenthamlibrary.ca/">Wretham Memorial Library</a></li>
 	</ul><!--columns-->
 	<li style="clear:left;">Edmonton Public Library</li>
 	<li>Fort Saskatchewan Public Library</li>
@@ -96,7 +96,7 @@ include 'header.php';
 		<li>Didsbury Municipal Library</li>
 		<li>Donalda Public Library</li>
 		<li>Eckville Municipal Library</li>
-			
+
 	</ul><!--columns-->
 	<ul class="columns">
 		<li>Edberg Public Library</li>
@@ -157,31 +157,32 @@ include 'header.php';
 			<li>Beiseker Municipal Library</li>
 			<li>Berry Creek Community Library</li>
 			<li>Bighorn Library</li>
+      <li>Bragg Creek Satellite Library</li>
 			<li>Canmore Public Library</li>
-			<li>Carbon Municipal Library</li>
+			<li>Village of Carbon Library</li>
 			<li>Carseland Community Library</li>
-			<li>Cereal Municipal Library</li>
 			<li>Chestermere Public Library</li>
-			<li>Cochrane Nan Boothby Memorial Library</li>
+			<li>Cochrane Public Library</li>
 			<li>Consort Municipal Library</li>
 			<li>Crossfield Municipal Library</li>
 			<li>Delia Municipal Library</li>
 			<li>Drumheller Public Library</li>
 			<li>Empress Municipal Library</li>
-			<li>Gleichen and District Library Society</li>
+      <li>Gleichen and District Library</li>
 		</ul><!--columns-->
-		<ul class="columns">			
+		<ul class="columns">
 			<li>Hanna Municipal Library</li>
-			<li>High River Centennial Library</li>
+			<li>High River Library</li>
 			<li>Hussar Municipal Library</li>
-			<li>Irricana Municipal Library</li>
+			<li>Irricana & Rural Municipal Library</li>
+      <li>Langdon Community Library</li>
 			<li>Linden Municipal Library</li>
 			<li>Longview Municipal Library</li>
 			<li>Millarville Community Library</li>
 			<li>Morrin Municipal Library</li>
 			<li>Okotoks Public Library</li>
-			<li>Oyen Municipal Library</li>
-			<li>Rockyford Municipal Library</li>
+			<li>Town of Oyen Library</li>
+			<li>Rockyford Library</li>
 			<li>Rumsey Community Library</li>
 			<li>Sheep River Library</li>
 			<li>Standard Municipal Library</li>
@@ -268,7 +269,7 @@ include 'header.php';
 			<li>Keg River Community Library</li>
 			<li>Kinuso Municipal Library</li>
 		</ul><!--columns-->
-		<ul class="columns">			
+		<ul class="columns">
 			<li>LaGlace Community Library</li>
 			<li>Manning Municipal Library</li>
 			<li>McLennan Municipal Library</li>
@@ -320,7 +321,7 @@ include 'header.php';
 		</ul><!--columns-->
 		<ul class="columns">
 			<li>Mayerthorpe Public Library</li>
-			<li>Millet Public Library</li>		
+			<li>Millet Public Library</li>
 			<li>Neerlandia Public Library</li>
 			<li>New Sarepta Public Library</li>
 			<li>Niton Library</li>
@@ -349,9 +350,9 @@ include 'header.php';
 
 
 
-<a href="http://melibraries.ca/">Return to MELibraries.ca</a>	
+<a href="http://melibraries.ca/">Return to MELibraries.ca</a>
 
-	
+
 </div><!--subContent-->
 <div id="spacer"></div>
 </div><!--mainContent-->
