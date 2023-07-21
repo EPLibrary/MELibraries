@@ -2,21 +2,6 @@
 session_start();
 $pageTitle="ME Libraries | Sign up";
 include 'header.php';
-
-/*
-	On this page we will insert the member into the user table if they haven't been added yet.
-	After this, we will insert the membership for the library that they have just joined into the membership table
-	
-	There will be a component here that requires talking to the server to do.
-	Send request to create/update user, 
-	$message=array(
-		"code" => "CREATE_CUSTOMER",
-		"authorityToken" => $authorityToken,
-		"customer" => "null"
-	);	
-*/
-
-
 ?>
 <div class="mainContent" id="mainContent">
 
@@ -25,7 +10,6 @@ include 'header.php';
 
 <div class="subContent">
 <h2>ME Libraries Frequently Asked Questions</h2>
-<!--<p>The Metro Edmonton Federation of Libraries members are Edmonton Public Library, Ft. Saskatchewan Public Library, St. Albert Public Library, and Strathcona County Library. The Metro Federation members share an interest in collaborating to increase access to library collections and programs for our customers across the Metro Edmonton region. The ME Libraries project was created to reduce barriers, granting access to the library collections and diverse programs of the Metro Edmonton Federation libraries.</p>-->
 
 <p>Alberta wide borrowing is here! ME Libraries lets you join other public libraries across Alberta and borrow their materials using ONE library card. Make the most of your library card and access more items for free!</p>
 <p>ME Libraries is a service of Alberta Public Library Network.</p>
@@ -93,7 +77,7 @@ include 'header.php';
 	</li>
 
 	<li><span class="question">What if I lose my home library card and/or get a replacement home library card for any reason?</span>
-		<span class="answer">Please report a lost card to your home library as soon as possible. Once you have a replacement home library card, login to  Me Libraries with your new card number and PIN. Choose the “update” option for each library you have joined.</span>
+		<span class="answer">Please report a lost card to your home library as soon as possible. Once you have a replacement home library card, login to  Me Libraries with your new card number and PIN. Choose the ï¿½updateï¿½ option for each library you have joined.</span>
 	</li>
 
 	<li><span class="question">What will my membership term be with at the libraries I register with?</span>
@@ -121,9 +105,9 @@ include 'header.php';
 </ul>
 
 
-<a href="http://melibraries.ca/">Return to MELibraries.ca</a>	
+<a href="http://melibraries.ca/">Return to MELibraries.ca</a>
 
-	
+
 </div><!--subContent-->
 <div id="spacer"></div>
 </div><!--mainContent-->
