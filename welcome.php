@@ -104,7 +104,7 @@ if ($_SESSION['originating_ip']=='10.3.0.79'){
 		<span class="deadButton" id="deadButton" style="margin-left:50px;margin-right:50px;">Next&nbsp;&#9658;</span>
 
 		<!--- Clicking this button submits all the known data--->
-		<a href="javascript:void(0);" class="button hidden" id="nextButton" style="padding-left:20px;padding-right:20px;margin-left:50px;margin-right:50px;" onClick="$('#verifyForm').submit()">Next &#9658;</a>
+		<button type="button" class="button hidden" id="nextButton" style="padding-left:20px;padding-right:20px;margin-left:50px;margin-right:50px;" onClick="document.getElementById('verifyForm').submit()">Next &#9658;</button>
 	</form>
 	</div>
 	<div style="clear:both;"></div>
