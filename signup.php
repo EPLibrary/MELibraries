@@ -22,18 +22,20 @@ if ($_SESSION['originating_ip']=='10.3.0.79'){?>
 
 ?>
 
-<script language="javascript">
-
+<script>
 function submitTheForm(libIdx) {
-	//e.preventDefault();
-	$('.loadSpinner').hide();
-	$('.button').show();
-	$('#spinner'+libIdx).show();
-	$('#form'+libIdx).submit();
-	$('#joinlink'+libIdx).hide();
-	
-}
+    // e.preventDefault();
+    const loadSpinner = document.getElementByClassName('loadSpinner')
+    if (loadSpinner) loadSpinner.style.display = 'none'
 
+    var buttons = document.getElementsByClassName('button')
+    for (let i = 0; i < buttons.length; i++) {
+        buttons[i].style.display = 'block'
+    }
+    document.getElementById('spinner' + libIdx).style.display = 'block'
+    document.getElementById('form' + libIdx).submit()
+    document.getElementById('joinlink' + libIdx).style.display = 'none'
+}
 </script>
 
 

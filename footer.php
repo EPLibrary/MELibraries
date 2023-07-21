@@ -11,47 +11,52 @@
 </div><!--logoAndForm-->
 
 
-<script language="Javascript">
-	/* attach a submit handler to the login form */
-	$(document).on('submit', '#loginForm', function(event) {
-		/* stop form from submitting normally */
-		event.preventDefault();
-		/* hide our error message if it's displayed */		
-		$('#errorCardNo').hide();
-		
-		/* Validate to ensure that the numbers are the correct length/format and that there's data here.*/
-		var cardNumber = document.getElementById('cardNoField').value;
-		cardNumber = $.trim(cardNumber);
-		if ((cardNumber.length == 14 || cardNumber.length == 13) && !isNaN(cardNumber)) {			
-			/* Show the waiting spinner */
-			//$('#enterText').hide();
-			$('#loadSpinner').show();
+<script>
+/* attach a submit handler to the login form */
+document.addEventListener('submit', function(e) {
+    /* check if the event is fired by the loginForm */
+    if (e.target.matches('#loginForm')) {
+        /* stop form from submitting normally */
+        e.preventDefault()
+        /* hide our error message if it's displayed */
+        document.getElementById('errorCardNo').style.display = 'none'
 
-			//Let's post the data with Ajax and figure out what library we are coming from.		
-			url = $('#loginForm').attr( 'action' ),
-			formdata = $('#loginForm').serialize(),
-			/* Send the data using post */
-			$.post( url, formdata)
-			.done(function(data) {
-				/* Detect error condition. */
-				dataObj = JSON.parse(data);
-				
-				if (dataObj.error) {
-					$('#errorCardNo').empty();
-					$('#errorCardNo').append(dataObj.errorMsg);		
-					$('#errorCardNo').fadeIn(300);
-					$('#loadSpinner').hide();		
-				
-				} else {
-					document.location.href='welcome.php';
-				}
-			});
-		} else {
-			$('#errorCardNo').fadeIn(300);
-			$('#loadSpinner').hide();
-		}
-		//$('#loginForm').submit();
-	});
+        /* Validate to ensure that the numbers are the correct length/format and that there's data here. */
+        let cardNumber = document.getElementById('cardNoField').value
+        cardNumber = cardNumber.trim()
+        if ((cardNumber.length === 14 || cardNumber.length === 13) && !isNaN(cardNumber)) {
+            /* Show the waiting spinner */
+            // document.getElementById('enterText').style.display = 'none'
+            document.getElementById('loadSpinner').style.display = 'block'
+
+            /* Let's post the data with Ajax and figure out what library we are coming from. */
+            const url = document.getElementById('loginForm').action
+            const formdata = new FormData(document.getElementById('loginForm'))
+
+            /* Send the data using post */
+            fetch(url, {
+                method: 'POST',
+                body: formdata
+            })
+            .then(response => response.json())
+            .then(data => {
+                /* Detect error condition. */
+                if (data.error) {
+                    const errorCardNo = document.getElementById('errorCardNo')
+                    errorCardNo.innerHTML = data.errorMsg
+                    errorCardNo.style.display = 'block'
+                    document.getElementById('loadSpinner').style.display = 'none'
+                } else {
+                    window.location.href = 'welcome.php'
+                }
+            })
+        } else {
+            document.getElementById('errorCardNo').style.display = 'block'
+            document.getElementById('loadSpinner').style.display = 'none'
+        }
+        // document.getElementById('loginForm').submit();
+    }
+})
 </script>
 
 

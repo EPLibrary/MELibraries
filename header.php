@@ -74,84 +74,79 @@ if (!isset($_SESSION['customer'])
 
 <title><?=$pageTitle?></title>
 
-<!--
-SEO Stuff can go here. Meta tags, etc.
--->
+<!-- SEO Stuff can go here. Meta tags, etc. -->
 
+<script>
+//This function resizes an element to fit within a certain available size.
+function autoResize(id){
+    let newHeight
+    let newWidth
+    const maxHeight = 326
+    const minHeight = 190
+    const sideMargin = 48
+    const availableHeight = window.innerHeight - 600
+    const availableWidth = window.innerWidth < 950 ? 950 - sideMargin - sideMargin : window.innerWidth - sideMargin - sideMargin
 
+    let aspectRatio = 326/326
+    if(document.getElementById(id)){
+        if (availableHeight < (availableWidth / aspectRatio)) {
+            newHeight = availableHeight
+            newWidth = availableHeight * aspectRatio
+        } else {
+            newHeight = availableWidth / aspectRatio
+            newWidth = newHeight * aspectRatio
+        }
+    }
+    const el = document.getElementById(id)
+    if (newHeight < minHeight) {
+        el.style.height = minHeight + 'px'
+        el.style.width = minHeight * aspectRatio + 'px'
+    } else if (newHeight < maxHeight) {
+        el.style.height = newHeight + 'px'
+        el.style.width = newWidth + 'px'
+    }
+}
 
-<script type="text/javascript" language="Javascript" src="jquery-1.10.2.min.js"></script>
+// Adjust the height of the '#mainContent' div based on the window height.
+function adjustHeight(){
+    const mainContent = document.querySelector('#mainContent')
+    if (mainContent && window.innerHeight > mainContent.offsetHeight) {
+        mainContent.style.height = (window.innerHeight - 20) + 'px'
+    }
+}
 
-<script language="Javascript">
-	
-	//This function resizes an element to fit within a certain available size.
-	//I can tweak it with by adjusting the availableHeight/availableWidth variables if necessary
-	function autoResize(id){
-		var newHeight;
-		var newWidth;
-		var maxHeight=326;
-		var minHeight=190;
-		var availableWidth;
-		var sideMargin=48;
-		var availableHeight=$(window).height()-600;
-		if ($(window).width()<950) availableWidth=950-sideMargin-sideMargin;
-		else availableWidth=$(window).width()-sideMargin-sideMargin;
-		
-		var aspectRatio=326/326;	
-		if(document.getElementById){
+// Run functions on document ready
+document.addEventListener('DOMContentLoaded', function() {
+    if (document.querySelector('#joinMeImg')) autoResize('joinMeImg')
+    adjustHeight()
+})
 
-			if (availableHeight<(availableWidth/aspectRatio)) {
-				newHeight=availableHeight;
-				newWidth=availableHeight*aspectRatio;
-			} else {
-				newHeight=availableWidth/aspectRatio;
-				newWidth=newHeight*aspectRatio;
-			}
+// Run functions on window resize
+window.addEventListener('resize', function() {
+    if (document.querySelector('#joinMeImg')) autoResize('joinMeImg')
+    adjustHeight()
+})
 
-		}
-		if (newHeight < minHeight) {
-			document.getElementById(id).style.height= minHeight+"px";
-			document.getElementById(id).style.width= minHeight*aspectRatio+"px";
-		} else if (newHeight < maxHeight) {
-			document.getElementById(id).style.height= newHeight+"px";
-			document.getElementById(id).style.width= newWidth+"px";
-		}
-	}		
-	
-	$(document).ready(function(){
-		if ($('#joinMeImg').length) autoResize('joinMeImg');
-		if ($(window).height() > $('#mainContent').height()) $('#mainContent').height($(window).height()-20+'px');
-		
-	});
-	
-	$(window).resize(function () {
-		if ($('#joinMeImg').length) autoResize('joinMeImg');
-		if ($(window).height() > $('#mainContent').height()) $('#mainContent').height($(window).height()-20+'px');
-	});
+// Displaying or hiding a button based on whether a checkbox is checked.
+function enableButton(id) {
+    const checkbox = document.querySelector('#agree')
+    const deadButton = document.querySelector('#deadButton')
+    const button = document.querySelector('#' + id)
+    if (checkbox.checked) {
+        deadButton.style.display = 'none'
+        button.style.display = 'inline'
+    } else {
+        deadButton.style.display = 'inline'
+        button.style.display = 'none'
+    }
+}
 
-
-
-	function enableButton(id) {
-		if (document.getElementById('agree').checked==true) {
-			document.getElementById('deadButton').style.display='none';
-			document.getElementById(id).style.display='inline';
-		} else {
-			document.getElementById('deadButton').style.display='inline';
-			document.getElementById(id).style.display='none';
-		}
-	}
-
-
-	
-	
-	function showSpinner() {
-		$('#enterText').hide();
-		$('#loadSpinner').show();
-		//$('#backCurtain').show();	
-		$(this).parent().submit('get_info.php');
-	}
-	
-	
+// Displaying a loading spinner.
+function showSpinner() {
+    document.querySelector('#enterText').style.display = 'none'
+    document.querySelector('#loadSpinner').style.display = 'block'
+    this.parentElement.submit('get_info.php')
+}
 </script>
 
 </head>
