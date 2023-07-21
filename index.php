@@ -57,6 +57,4 @@ include 'header.php';
 <div id="backCurtain"></div>
 <h3 style="text-align:center;clear:both;margin-top:20px;">A service of Alberta's Public Library Network</h3>
 <div id="spacer">&nbsp;</div>
-<?php
-include 'footer.php';
-?>
+<?php include 'footer.php';

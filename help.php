@@ -111,6 +111,4 @@ include 'header.php';
 </div><!--subContent-->
 <div id="spacer"></div>
 </div><!--mainContent-->
-<?php
-include 'footer.php';
-?>
+<?php include 'footer.php';

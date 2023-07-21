@@ -10,14 +10,14 @@ include 'header.php';
 	3. If the create/update was succesfull (ok response), insert/update the database hash
 	On this page we will insert the member into the user table if they haven't been added yet.
 	After this, we will insert the membership for the library that they have just joined into the membership table
-	
+
 	There will be a component here that requires talking to the server to do.
-	Send request to create/update user, 
+	Send request to create/update user,
 	$message=array(
 		"code" => "CREATE_CUSTOMER",
 		"authorityToken" => $authorityToken,
 		"customer" => "null"
-	);	
+	);
 */
 
 ?>
@@ -75,7 +75,7 @@ $prevCard='';
 //Check to see if this user has a matching hash but no matching userid. If so, we most likely have a lost card.
 //Where's the userid for this libraryrecord?
 
-	
+
 $result=mysqli_query($con, $query);
 if ($result->num_rows > 0) {
 		$userInfo = mysqli_fetch_assoc($result);
@@ -87,7 +87,7 @@ if ($result->num_rows > 0) {
 			$hasLostCard=true;
 			$prevCard=$userInfo["muserid"];
 			$_SESSION["customer"]["ISLOSTCARD"] = 'Y';
-			$_SESSION["customer"]["ALTERNATE_ID"] = $prevCard;		
+			$_SESSION["customer"]["ALTERNATE_ID"] = $prevCard;
 		}
 } else {
 	//Now check that the user exists at all
@@ -97,11 +97,11 @@ if ($result->num_rows > 0) {
 	if ($result->num_rows > 0) {
 		$userInfo = mysqli_fetch_assoc($result);
 		$userExists=true;
-	} 	
+	}
 }
 
 
-	
+
 
 /* Do Socket connection and add user to foreign library 	*/
 	//Token/API Key
@@ -109,8 +109,8 @@ if ($result->num_rows > 0) {
 	$host = $libraryComData["library_server_url"];
 	$port = $libraryComData["library_server_port"];
 
-	
-	
+
+
 	//Hangup string we send when we're done
 	$hangup = "XX0";
 	//Buffer length in bytes
@@ -127,7 +127,7 @@ if ($result->num_rows > 0) {
 	//Add newline so the server knows when the message is done.
 	$message.="\n";
 
-	// 10s Timeout 
+	// 10s Timeout
 	set_time_limit(10);
 
 	// Create Socket
@@ -137,7 +137,7 @@ if ($result->num_rows > 0) {
 	if ($result = socket_connect($socket, $host, $port) == false) {
 		$error=true;
 		$errorMsg="Can't connect to server $host on port $port";
-		echo('<h2>Error</h2><div class="subContent"><p class="error" style="display:inline;">'.$errorMsg.'</p><p>Please return to <a href="/">MeLibraries.ca</a>.</p></div>'); 
+		echo('<h2>Error</h2><div class="subContent"><p class="error" style="display:inline;">'.$errorMsg.'</p><p>Please return to <a href="/">MeLibraries.ca</a>.</p></div>');
 		include 'footer.php';
 		exit();
 	}
@@ -152,7 +152,7 @@ if ($result->num_rows > 0) {
 	};
 
 	//Testing with Card No: "21221012345678", Pin: "64058","Billy, Balzac"
-	
+
 	if ($hasMembership) {
 		$message=array(
 			"code" => "UPDATE_CUSTOMER",
@@ -161,7 +161,7 @@ if ($result->num_rows > 0) {
 			"pin" => '',
 			"customer" => json_encode($_SESSION["customer"])
 			);
-	
+
 	} else {
 		$message=array(
 			"code" => "CREATE_CUSTOMER",
@@ -174,8 +174,8 @@ if ($result->num_rows > 0) {
 	$message=json_encode($message);
 	$message.="\n";
 
-	
-	if ($_SESSION['originating_ip']=='10.3.0.79'){	
+
+	if ($_SESSION['originating_ip']=='10.3.0.79'){
 		echo '<pre class="debug">';
 		echo 'Sending Message:';
 		print_r($message);
@@ -186,11 +186,11 @@ if ($result->num_rows > 0) {
 	if ($result == false) {
 		$error=true;
 		$errorMsg="Could not send data to server $host";
-		echo('<div class="mainContent" id="mainContent" style="min-width:695px;"><a href="index.php" style="border:none;"><img id="meLogoTop" src="images/ME_Libraries_Logo_black.png"></a><h1 class="pageTitle">Error</h1><div class="subContent"><p class="error" style="display:inline;">'.$errorMsg.'</p><p>Please return to <a href="/">MeLibraries.ca</a>.</p></div></div>'); 
+		echo('<div class="mainContent" id="mainContent" style="min-width:695px;"><a href="index.php" style="border:none;"><img id="meLogoTop" src="images/ME_Libraries_Logo_black.png"></a><h1 class="pageTitle">Error</h1><div class="subContent"><p class="error" style="display:inline;">'.$errorMsg.'</p><p>Please return to <a href="/">MeLibraries.ca</a>.</p></div></div>');
 		include 'footer.php';
 		exit();
 	}
-	
+
 	$serverReply = socket_read ($socket, $bufferlen);
 	if ($serverReply == false) {
 		$data["error"]=true;
@@ -200,7 +200,7 @@ if ($result->num_rows > 0) {
 	}
 	echo '<p class="debug"><b>Reply From Server:</b><br />'.$serverReply.'</p>';
 	$serverReply=json_decode($serverReply, true);
-	
+
 	// Hang up socket connection
 	socket_write($socket, $hangup, strlen($hangup)) or die("Could not send data to server\n");
 
@@ -208,14 +208,14 @@ if ($result->num_rows > 0) {
 	socket_close($socket);
 
 
-	
+
 	//If the server replied that it was successful, we can do our database fun stuff.
 	if ($serverReply["code"] == "SUCCESS") {
 		echo '<h2 class="green" style="clear:both;">';
 		if ($hasMembership) echo "Thanks for the update";
 		else echo 'Welcome to the '.$libraryComData["library_name"];
 		echo '.</h2>';
-		
+
 		$operation = "U";
 
 		//Insert the new user if he doesn't exist yet
@@ -239,10 +239,10 @@ if ($result->num_rows > 0) {
 				$result = mysqli_query($con,$query);
 				if ( false===$result ) {
 					printf('<p class="SQL error" style="display:block;">error: %s</p>\n', mysqli_error($con));
-				}			
+				}
 			}
 		}
-		
+
 		if ($hasMembership == false) {
 			$operation = "C";
 			$query="INSERT INTO membership (user_record_index, library_record_index, date_last_activity, user_info_hash, userid)
@@ -257,8 +257,8 @@ if ($result->num_rows > 0) {
 		if ( false===$result ) {
 			printf('<p class="error" style="display:block;">SQL error: %s</p>\n', mysqli_error($con));
 		}
-		
-	
+
+
 		//
 		// Insert record into membership_log
 		//
@@ -271,7 +271,7 @@ if ($result->num_rows > 0) {
 
 
 	} elseif ($serverReply["code"] == "PIN_CHANGE_REQUIRED") {
-		
+
 		$newPin = preg_replace("/^ ?(\d+)[\a\s:](.*)/", '<span class="pin">$1</span><span class="libMessage">$2</span>', $serverReply["responseMessage"]);
 		$newNakedPin = preg_replace("/^ ?(\d+)[\a\s:](.*)/", '$1', $serverReply["responseMessage"]);
 		echo '<h2 class="green" style="clear:both;">';
@@ -280,7 +280,7 @@ if ($result->num_rows > 0) {
 		$pinMessage = '<span style=\"color:red;\">Note:</span> your PIN for this library is different.<br />';
 		$pinMessage.= 'Your pin for '.$libraryComData["library_name"].' has been set to: '.$newPin;
 
-		
+
 		//Send an email to the customer if they have a valid email address
 		if (strlen($_SESSION["customer"]["EMAIL"]) > 5) {
 
@@ -294,7 +294,7 @@ if ($result->num_rows > 0) {
 
 			//Add a comment about the new PIN if it has been changed
 			if ($serverReply["code"] == "PIN_CHANGE_REQUIRED") {
-					
+
 				//$newPin is set above
 				$body .= "\n\nNote: Your PIN for ".$libraryComData["library_name"]." is different.\nIt has been set to ".$newNakedPin.".";
 			}
@@ -316,7 +316,7 @@ if ($result->num_rows > 0) {
 			}
 		}//END - If email longer than 5 characters
 
-			
+
 		//Do database inserts for when PIN Changes is required - new user
 		if ($userExists == false) {
 			$query="INSERT INTO user (userid, home_library_record_index, date_last_activity, date_created)
@@ -330,7 +330,7 @@ if ($result->num_rows > 0) {
 		} else {
 			$user_record_index=$userInfo["record_index"];
 		}
-		
+
 		if ($hasMembership == false) {
 			$query="INSERT INTO membership (user_record_index, library_record_index, date_last_activity, user_info_hash, userid)
 			VALUES('".$user_record_index."','".$_POST["joinLibrary"]."', NOW(), '".$_SESSION["customerHash"]."', '".$_SESSION["customer"]["ID"]."')";
@@ -345,21 +345,21 @@ if ($result->num_rows > 0) {
 			printf('<p class="error" style="display:block;">SQL error: %s</p>\n', mysqli_error($con));
 		}
 
-		
-		
+
+
 
 	} else {
 		echo '<p class="error" style="display:block;">'.$serverReply["responseMessage"].'</p>';
 		$error=true;
 	}
-	
+
 //Show debug info only for JD at EPL
-if ($_SESSION['originating_ip']=='10.3.0.79'){	
+if ($_SESSION['originating_ip']=='10.3.0.79'){
 	echo '<pre class="debug">';
 			print_r($userInfo);
 			echo "Customer:<br />";
 			print_r($_SESSION['customer']);
-			
+
 		/*
 			print_r($_POST);
 			echo "<br />";
@@ -367,13 +367,13 @@ if ($_SESSION['originating_ip']=='10.3.0.79'){
 			echo "<br />";
 			echo "serverReply:<br />";
 			print_r($serverReply);
-		*/	
+		*/
 	echo '</pre>';
-}?>		
+}?>
 
-	
-	
-<div class="centered" style="width:90%;">	
+
+
+<div class="centered" style="width:90%;">
 	<?php
 	if (isset($pinMessage)) {
 		echo '<p style="text-align:center;">'.$pinMessage.'</p>';
@@ -386,9 +386,9 @@ if ($_SESSION['originating_ip']=='10.3.0.79'){
 			else  echo "You now have access to the ".$libraryComData["library_name"].".";
 	?>
 	<br />Click the logo below to visit their website, or <a class="green" href="signup.php">join another library</a>.</p>
-	
+
 	<?php  } // End success message ?>
-<a href="<?=$libraryComData['library_url']?>" style="border:none;height:160px;max-width:300px;text-align:center;" class="centered"><img src="<?=$libraryComData["library_logo_url"]?>" class="centered" style="height:160px;vertical-align:middle;" alt="<?=$libraryComData["library_name"]?>" title="<?=$libraryComData["library_name"]?>"></a>	
+<a href="<?=$libraryComData['library_url']?>" style="border:none;height:160px;max-width:300px;text-align:center;" class="centered"><img src="<?=$libraryComData["library_logo_url"]?>" class="centered" style="height:160px;vertical-align:middle;" alt="<?=$libraryComData["library_name"]?>" title="<?=$libraryComData["library_name"]?>"></a>
 </div>
 <p style="text-align:center;margin-top:30px;">Note that it may take up to 5 minutes to update your account. If you are finished with this service, you can close your browser tab to end your session.</p>
 <p style="text-align:center;font-weight:bold;">
@@ -399,6 +399,4 @@ if ($_SESSION['originating_ip']=='10.3.0.79'){
 </div><!--subContent-->
 <div id="spacer"></div>
 </div><!--mainContent-->
-<?php
-include 'footer.php';
-?>
+<?php include 'footer.php';
