@@ -25,10 +25,10 @@ if ($_SESSION['originating_ip']=='10.3.0.79'){?>
 <script>
 function submitTheForm(libIdx) {
     // e.preventDefault();
-    const loadSpinner = document.getElementByClassName('loadSpinner')
+    const loadSpinner = document.querySelector('.loadSpinner')
     if (loadSpinner) loadSpinner.style.display = 'none'
 
-    const buttons = document.querySelectorAll('button')
+    const buttons = document.querySelectorAll('.button')
     buttons.forEach(btn => btn.style.display = 'block')
 
     document.getElementById('spinner' + libIdx).style.display = 'block'
