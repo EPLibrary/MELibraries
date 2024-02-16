@@ -46,7 +46,6 @@ include 'header.php';
         </div>
       </form>
 
-      <!--- we submit this form with jQuery after we have the library figured out --->
       <form name="jsonForm" id="jsonForm" action="welcome.php" method="post">
         <input type="hidden" id="jsonField" name="jsonField" value="" />
       </form>
