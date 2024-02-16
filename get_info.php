@@ -101,7 +101,11 @@ if (mysqli_num_rows($result)>0) {
   $bufferlen = 2048;
 
   //JSON formatted parameters for socket with newline to terminate
-  $message=["code" => "GET_STATUS", "authorityToken" => $authorityToken, "customer" => "null"];
+  $message=[
+      "code" => "GET_STATUS",
+      "authorityToken" => $authorityToken,
+      "customer" => "null"
+  ];
   /* If GET_STATUS is not okay, do error handling */
   $message=json_encode($message);
 
