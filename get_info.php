@@ -7,7 +7,7 @@ session_start();
 include '../melibraries-db-config.php';
 
 // Check connection
-if (mysqli_connect_errno($con))  {
+if (mysqli_connect_errno())  {
   echo "Failed to connect to MySQL: " . mysqli_connect_error();
 }
 
@@ -118,6 +118,7 @@ if (mysqli_num_rows($result)>0) {
 
   // 10s Timeout. Does this do anything?
   set_time_limit(10);
+
 
 
   // Create Socket
