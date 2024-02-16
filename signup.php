@@ -1,8 +1,6 @@
 <?php
 session_start();
-if ($_POST['agree']=='on') {
-	$_SESSION['agree']=true;
-}
+$_SESSION['agree'] = isset($_POST['agree']) && $_POST['agree'] == 'on';
 
 $pageTitle="ME Libraries | Sign up";
 include 'header.php';
