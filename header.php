@@ -11,16 +11,16 @@ $_SESSION['views']=1;
 
 
 //Timeout the session if the user hasn't loaded a page in a few minutes
-if (!isset($_SESSION['timeout_idle']) || basename($_SERVER['PHP_SELF']) != 'get_info.php') {
+if (!isset($_SESSION['timeout_idle']) || basename((string) $_SERVER['PHP_SELF']) != 'get_info.php') {
     $_SESSION['timeout_idle'] = time() + MAX_IDLE_TIME;
 } elseif ($_SESSION['timeout_idle'] < time()) {
         //destroy session
     session_destroy();
-    if (basename($_SERVER['PHP_SELF']) != 'index.php'
-      && basename($_SERVER['PHP_SELF']) != 'privacy.php'
-      && basename($_SERVER['PHP_SELF']) != 'help.php'
-      && basename($_SERVER['PHP_SELF']) != 'stats.php'
-      && basename($_SERVER['PHP_SELF']) != 'participating.php') {
+    if (basename((string) $_SERVER['PHP_SELF']) != 'index.php'
+      && basename((string) $_SERVER['PHP_SELF']) != 'privacy.php'
+      && basename((string) $_SERVER['PHP_SELF']) != 'help.php'
+      && basename((string) $_SERVER['PHP_SELF']) != 'stats.php'
+      && basename((string) $_SERVER['PHP_SELF']) != 'participating.php') {
       header("Location: index.php?timeout");
     }
     } else {$_SESSION['timeout_idle'] = time() + MAX_IDLE_TIME;}
@@ -35,13 +35,13 @@ if (!isset($_SESSION['originating_ip'])) {
 
 //Ensure the user has agreed to our terms before allowing them in.
 if (!isset($_SESSION['agree'])
-  && basename($_SERVER['PHP_SELF']) != 'logout.php'
-  && basename($_SERVER['PHP_SELF'])!= 'index.php'
-  && basename($_SERVER['PHP_SELF']) != 'privacy.php'
-  && basename($_SERVER['PHP_SELF']) != 'help.php'
-  && basename($_SERVER['PHP_SELF']) != 'stats.php'
-  && basename($_SERVER['PHP_SELF']) != 'participating.php'
-  && basename($_SERVER['PHP_SELF'])!= 'welcome.php') {
+  && basename((string) $_SERVER['PHP_SELF']) != 'logout.php'
+  && basename((string) $_SERVER['PHP_SELF'])!= 'index.php'
+  && basename((string) $_SERVER['PHP_SELF']) != 'privacy.php'
+  && basename((string) $_SERVER['PHP_SELF']) != 'help.php'
+  && basename((string) $_SERVER['PHP_SELF']) != 'stats.php'
+  && basename((string) $_SERVER['PHP_SELF']) != 'participating.php'
+  && basename((string) $_SERVER['PHP_SELF'])!= 'welcome.php') {
   header("Location: welcome.php");
 }
 
@@ -49,12 +49,12 @@ if (!isset($_SESSION['agree'])
 //Kick the user back to the login screen if they don't have a customer array (and thus haven't successfully logged in)
 //Informational pages are exempted from this.
 if (!isset($_SESSION['customer'])
-  && basename($_SERVER['PHP_SELF']) != 'logout.php'
-  && basename($_SERVER['PHP_SELF']) != 'privacy.php'
-  && basename($_SERVER['PHP_SELF']) != 'help.php'
-  && basename($_SERVER['PHP_SELF']) != 'stats.php'
-  && basename($_SERVER['PHP_SELF']) != 'participating.php'
-  && basename($_SERVER['PHP_SELF']) != 'index.php') {
+  && basename((string) $_SERVER['PHP_SELF']) != 'logout.php'
+  && basename((string) $_SERVER['PHP_SELF']) != 'privacy.php'
+  && basename((string) $_SERVER['PHP_SELF']) != 'help.php'
+  && basename((string) $_SERVER['PHP_SELF']) != 'stats.php'
+  && basename((string) $_SERVER['PHP_SELF']) != 'participating.php'
+  && basename((string) $_SERVER['PHP_SELF']) != 'index.php') {
   header("Location: index.php");
   die();
 }

@@ -22,7 +22,7 @@ or where the hash is different (for updating) */
 include '../melibraries-db-config.php';
 
 // Check connection
-if (mysqli_connect_errno($con)) echo "Failed to connect to MySQL: " . mysqli_connect_error();
+if (mysqli_connect_errno()) echo "Failed to connect to MySQL: " . mysqli_connect_error();
 
 $query = "SELECT * FROM librarycom  lc
 JOIN library l ON l.record_index=lc.library_record_index
@@ -96,11 +96,7 @@ if ($result->num_rows > 0) {
   $bufferlen = 2048;
 
   // JSON formatted parameters for socket with newline to terminate
-  $message = array(
-    "code" => "GET_STATUS",
-    "authorityToken" => $authorityToken,
-    "customer" => "null"
-  );
+  $message = ["code" => "GET_STATUS", "authorityToken" => $authorityToken, "customer" => "null"];
   // If GET_STATUS is not okay, do error handling
   $message = json_encode($message);
   //Add newline so the server knows when the message is done.
@@ -131,21 +127,9 @@ if ($result->num_rows > 0) {
 
   //Testing with Card No: "21221012345678", Pin: "64058","Billy, Balzac"
   if ($hasMembership) {
-    $message = array(
-      "code" => "UPDATE_CUSTOMER",
-      "authorityToken" => "55u1dqzu4tfSk2V4u5PW6VTMqi9bzt2d",
-      "userId" => '',
-      "pin" => '',
-      "customer" => json_encode($_SESSION["customer"])
-      );
+    $message = ["code" => "UPDATE_CUSTOMER", "authorityToken" => "55u1dqzu4tfSk2V4u5PW6VTMqi9bzt2d", "userId" => '', "pin" => '', "customer" => json_encode($_SESSION["customer"])];
   } else {
-    $message = array(
-      "code" => "CREATE_CUSTOMER",
-      "authorityToken" => "55u1dqzu4tfSk2V4u5PW6VTMqi9bzt2d",
-      "userId" => '',
-      "pin" => '',
-      "customer" => json_encode($_SESSION["customer"])
-      );
+    $message = ["code" => "CREATE_CUSTOMER", "authorityToken" => "55u1dqzu4tfSk2V4u5PW6VTMqi9bzt2d", "userId" => '', "pin" => '', "customer" => json_encode($_SESSION["customer"])];
   }
 
   $message = json_encode($message);
@@ -245,8 +229,8 @@ if ($result->num_rows > 0) {
 
   } elseif ($serverReply["code"] == "PIN_CHANGE_REQUIRED") {
 
-    $newPin = preg_replace("/^ ?(\d+)[\a\s:](.*)/", '<span class="pin">$1</span><span class="libMessage">$2</span>', $serverReply["responseMessage"]);
-    $newNakedPin = preg_replace("/^ ?(\d+)[\a\s:](.*)/", '$1', $serverReply["responseMessage"]);
+    $newPin = preg_replace("/^ ?(\d+)[\a\s:](.*)/", '<span class="pin">$1</span><span class="libMessage">$2</span>', (string) $serverReply["responseMessage"]);
+    $newNakedPin = preg_replace("/^ ?(\d+)[\a\s:](.*)/", '$1', (string) $serverReply["responseMessage"]);
     echo '<h2 class="green" style="clear:both;">';
 
     echo 'Welcome to the '.$libraryComData["library_name"].'.</h2>';
@@ -255,7 +239,7 @@ if ($result->num_rows > 0) {
 
 
     //Send an email to the customer if they have a valid email address
-    if (strlen($_SESSION["customer"]["EMAIL"]) > 5) {
+    if (strlen((string) $_SESSION["customer"]["EMAIL"]) > 5) {
       $from = "Me Libaries <noreply@melibraries.ca>";
       $to_email = $_SESSION["customer"]["EMAIL"];
       $to_name = $_SESSION["customer"]["FIRSTNAME"]." ".$_SESSION["customer"]["LASTNAME"];

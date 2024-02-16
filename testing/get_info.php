@@ -27,12 +27,12 @@ function get_library_info($barcode, $pin = null, $libraryid = null) {
 	include '/home/its/mysql_config.php';
 
 	// Check connection
-	if (mysqli_connect_errno($con))  {
+	if (mysqli_connect_errno())  {
 		echo "Failed to connect to MySQL: " . mysqli_connect_error();
 	}
 
 	//Trim spaces from entered card number
-	$barcode = trim($barcode);
+	$barcode = trim((string) $barcode);
 
 	//Set the number of digits used for the library prefix
 	if (strlen($barcode) == 13) $numDigits=3;
@@ -90,29 +90,25 @@ function get_library_info($barcode, $pin = null, $libraryid = null) {
 
 	$result = mysqli_query($con, $query);
 	if (mysqli_num_rows($result)>0) {
-		$data = array();
+		$data = [];
 		$data["cardNumber"] = $barcode;
 		$data["pin"] = $pin;
 		while($row = mysqli_fetch_assoc($result)) {
 			/* make an array of interesting variables to be stored in $_SESSION */
-			$data["libraryData"]=array(
-				//"error" => false,
-				//"errorMsg" => "",
-				// card and pin moved into root
-				// "cardNumber" => $barcode,
-				// "pin" => $pin,
-				"libraryName" => $row['library_name'],
-				"libraryAddress" => $row['library_address'],
-				"libraryProvince" => $row['library_province'],
-				"libraryPostalCode" => $row['library_postal_code'],
-				"libraryPhoneNumber" => $row['library_phone_number'],
-				"libraryEmailAddress" => $row['library_email_address'],
-				"libraryRecordIndex" => $row['library_record_index'],
-				/* This information doesn't need to be passed to the user
-				"libraryServerUrl" => $row['library_server_url'],
-				"libraryServerPort" => $row['library_server_port'],
-				*/
-			);
+			$data["libraryData"]=[
+       //"error" => false,
+       //"errorMsg" => "",
+       // card and pin moved into root
+       // "cardNumber" => $barcode,
+       // "pin" => $pin,
+       "libraryName" => $row['library_name'],
+       "libraryAddress" => $row['library_address'],
+       "libraryProvince" => $row['library_province'],
+       "libraryPostalCode" => $row['library_postal_code'],
+       "libraryPhoneNumber" => $row['library_phone_number'],
+       "libraryEmailAddress" => $row['library_email_address'],
+       "libraryRecordIndex" => $row['library_record_index'],
+   ];
 			$host=$row['library_server_url'];
 			$port=$row['library_server_port'];
 		}//end query loop
@@ -130,11 +126,7 @@ function get_library_info($barcode, $pin = null, $libraryid = null) {
 		$bufferlen = 2048;
 
 		//JSON formatted parameters for socket with newline to terminate
-		$message=array(
-			"code" => "GET_STATUS",
-			"authorityToken" => $authorityToken,
-			"customer" => "null"
-		);
+		$message=["code" => "GET_STATUS", "authorityToken" => $authorityToken, "customer" => "null"];
 		/* If GET_STATUS is not okay, do error handling */
 		$message=json_encode($message);
 		
@@ -167,13 +159,7 @@ function get_library_info($barcode, $pin = null, $libraryid = null) {
 			die ($data);
 		};
 
-		$message=array(
-			"code" => "GET_CUSTOMER",
-			"authorityToken" => $authorityToken,
-			"userId" => $port = $data["cardNumber"],
-			"pin" => $data["pin"],
-			"customer" => "null"
-		);
+		$message=["code" => "GET_CUSTOMER", "authorityToken" => $authorityToken, "userId" => $port = $data["cardNumber"], "pin" => $data["pin"], "customer" => "null"];
 		$message=json_encode($message);
 		$message.="\n";
 
@@ -212,7 +198,7 @@ function get_library_info($barcode, $pin = null, $libraryid = null) {
 		// $_SESSION['response']=$resultArr;
 		$data['response']=$resultArr;
 		
-		$customerData=json_decode($resultArr['customer'], true);
+		$customerData=json_decode((string) $resultArr['customer'], true);
 		// $_SESSION['customer']=$customerData;
 		$data['customer']=$customerData;
 		//echo $result;
@@ -235,7 +221,7 @@ function get_library_info($barcode, $pin = null, $libraryid = null) {
 				if (is_null($libraryid)) {
 					$query="INSERT INTO FailedLogins (CardNumber, Attempts, LastIP, LastAttemptTime) VALUES('".$barcode."', 1, '".$_SERVER['REMOTE_ADDR']."', NOW())";
 					
-					if (mysqli_connect_errno($con))  {
+					if (mysqli_connect_errno())  {
 						echo "Failed to connect to MySQL: " . mysqli_connect_error();
 					}
 					$result=mysqli_query($con,$query);
@@ -254,7 +240,7 @@ function get_library_info($barcode, $pin = null, $libraryid = null) {
 		
 	/* If we can't match the card number to a library, return an error to that effect. */
 	} else {
-		$data = array("error" => true, "errorMsg" => "Unknown card number");
+		$data = ["error" => true, "errorMsg" => "Unknown card number"];
 		// $_SESSION['error']=true;
 		// $_SESSION['errorMsg']='Unknown card number.';
 		// $_SESSION['libraryData']=$data;
@@ -270,7 +256,7 @@ if (isset($_GET['pin'])) $_POST['pin'] = $_GET['pin'];
 
 
 //Trim spaces from entered card number
-$_POST['cardNoField'] = trim($_POST['cardNoField']);
+$_POST['cardNoField'] = trim((string) $_POST['cardNoField']);
 
 
 $data = get_library_info($_POST['cardNoField'], $_POST['pin']);
@@ -292,21 +278,13 @@ if (isset($data['error']) && ($data['error'] == true || $data['error'] == 1)) {
 } else {
 	$_SESSION['response']=$data['response'];
 	$_SESSION['customer']=$data['customer'];
-	$_SESSION["libraryData"]=array(
-		"libraryName" => $data['libraryData']['libraryName'],
-		"libraryAddress" => $data['libraryData']['libraryAddress'],
-		"libraryProvince" => $data['libraryData']['libraryProvince'],
-		"libraryPostalCode" => $data['libraryData']['libraryPostalCode'],
-		"libraryPhoneNumber" => $data['libraryData']['libraryPhoneNumber'],
-		"libraryEmailAddress" => $data['libraryData']['libraryEmailAddress'],
-		"libraryRecordIndex" => $data['libraryData']['libraryRecordIndex'],
-	);
+	$_SESSION["libraryData"]=["libraryName" => $data['libraryData']['libraryName'], "libraryAddress" => $data['libraryData']['libraryAddress'], "libraryProvince" => $data['libraryData']['libraryProvince'], "libraryPostalCode" => $data['libraryData']['libraryPostalCode'], "libraryPhoneNumber" => $data['libraryData']['libraryPhoneNumber'], "libraryEmailAddress" => $data['libraryData']['libraryEmailAddress'], "libraryRecordIndex" => $data['libraryData']['libraryRecordIndex']];
 	
 	// Now we have the session data set, we can query and loop through existing memberships.
 	include '/home/its/mysql_config.php';
 
 	if (strlen($_POST['cardNoField']) > 15) die('Invalid card number');
-	if (strlen($_POST['pin']) > 30) die('Invalid pin');
+	if (strlen((string) $_POST['pin']) > 30) die('Invalid pin');
 
 	if ($mysqli->connect_errno) {
 		echo "Error connecting to database.";

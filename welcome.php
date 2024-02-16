@@ -6,16 +6,16 @@ include 'header.php';
 
 $customerHashData =
   //trim($customer["PIN"]) .
-  trim($_SESSION['customer']["FIRSTNAME"]) .
-  trim($_SESSION['customer']["LASTNAME"]) .
-  trim($_SESSION['customer']["DOB"]) .
-  trim($_SESSION['customer']["STREET"]) .
-  trim($_SESSION['customer']["CITY"]) .
-  trim($_SESSION['customer']["PROVINCE"]) .
-  trim($_SESSION['customer']["POSTALCODE"]) .
-  trim($_SESSION['customer']["EMAIL"]) .
-  trim($_SESSION['customer']["PHONE"]) .
-  trim($_SESSION['customer']["PRIVILEGE_EXPIRES"]);
+  trim((string) $_SESSION['customer']["FIRSTNAME"]) .
+  trim((string) $_SESSION['customer']["LASTNAME"]) .
+  trim((string) $_SESSION['customer']["DOB"]) .
+  trim((string) $_SESSION['customer']["STREET"]) .
+  trim((string) $_SESSION['customer']["CITY"]) .
+  trim((string) $_SESSION['customer']["PROVINCE"]) .
+  trim((string) $_SESSION['customer']["POSTALCODE"]) .
+  trim((string) $_SESSION['customer']["EMAIL"]) .
+  trim((string) $_SESSION['customer']["PHONE"]) .
+  trim((string) $_SESSION['customer']["PRIVILEGE_EXPIRES"]);
 $_SESSION['customerHash']=md5($customerHashData);
 ?>
 

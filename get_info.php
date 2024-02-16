@@ -12,7 +12,7 @@ if (mysqli_connect_errno())  {
 }
 
 //Trim spaces from entered card number
-$_POST['cardNoField'] = trim($_POST['cardNoField']);
+$_POST['cardNoField'] = trim((string) $_POST['cardNoField']);
 
 //Set the number of digits used for the library prefix
 if (strlen($_POST['cardNoField']) == 13) $numDigits=3;
@@ -63,7 +63,7 @@ if ($failures > 5) {
 $query="SELECT * FROM library l
 JOIN libraryprefixes lp ON l.record_index=lp.library_record_index
 JOIN librarycom lc ON l.record_index=lc.library_record_index
-WHERE lp.userid_prefix='".substr($_POST["cardNoField"], 0, $numDigits)."';";
+WHERE lp.userid_prefix='".substr((string) $_POST["cardNoField"], 0, $numDigits)."';";
 
 
 $result = mysqli_query($con, $query);
@@ -71,23 +71,19 @@ if (mysqli_num_rows($result)>0) {
 
   while($row = mysqli_fetch_assoc($result)) {
     /* make an array of interesting variables to be stored in $_SESSION */
-    $data=array(
-      //"error" => false,
-      //"errorMsg" => "",
-      "cardNumber" => $_POST['cardNoField'],
-      "pin" => $_POST['pin'],
-      "libraryName" => $row['library_name'],
-      "libraryAddress" => $row['library_address'],
-      "libraryProvince" => $row['library_province'],
-      "libraryPostalCode" => $row['library_postal_code'],
-      "libraryPhoneNumber" => $row['library_phone_number'],
-      "libraryEmailAddress" => $row['library_email_address'],
-      "libraryRecordIndex" => $row['library_record_index'],
-      /* This information doesn't need to be passed to the user
-      "libraryServerUrl" => $row['library_server_url'],
-      "libraryServerPort" => $row['library_server_port'],
-      */
-    );
+    $data=[
+        //"error" => false,
+        //"errorMsg" => "",
+        "cardNumber" => $_POST['cardNoField'],
+        "pin" => $_POST['pin'],
+        "libraryName" => $row['library_name'],
+        "libraryAddress" => $row['library_address'],
+        "libraryProvince" => $row['library_province'],
+        "libraryPostalCode" => $row['library_postal_code'],
+        "libraryPhoneNumber" => $row['library_phone_number'],
+        "libraryEmailAddress" => $row['library_email_address'],
+        "libraryRecordIndex" => $row['library_record_index'],
+    ];
     $host=$row['library_server_url'];
     $port=$row['library_server_port'];
   }
@@ -105,11 +101,7 @@ if (mysqli_num_rows($result)>0) {
   $bufferlen = 2048;
 
   //JSON formatted parameters for socket with newline to terminate
-  $message=array(
-    "code" => "GET_STATUS",
-    "authorityToken" => $authorityToken,
-    "customer" => "null"
-  );
+  $message=["code" => "GET_STATUS", "authorityToken" => $authorityToken, "customer" => "null"];
   /* If GET_STATUS is not okay, do error handling */
   $message=json_encode($message);
 
@@ -143,13 +135,7 @@ if (mysqli_num_rows($result)>0) {
     die ($data);
   };
 
-  $message=array(
-    "code" => "GET_CUSTOMER",
-    "authorityToken" => $authorityToken,
-    "userId" => $port = $data["cardNumber"],
-    "pin" => $data["pin"],
-    "customer" => "null"
-  );
+  $message=["code" => "GET_CUSTOMER", "authorityToken" => $authorityToken, "userId" => $port = $data["cardNumber"], "pin" => $data["pin"], "customer" => "null"];
   $message=json_encode($message);
   $message.="\n";
 
@@ -188,7 +174,7 @@ if (mysqli_num_rows($result)>0) {
     //Store customer information from ME server in Session variable
     $_SESSION['response']=$resultArr;
 
-    $customerData=json_decode($resultArr['customer'], true);
+    $customerData=json_decode((string) $resultArr['customer'], true);
     $_SESSION['customer']=$customerData;
     //echo $result;
     //We don't do this anymore because we don't want Customer information to be held in the user agent.
@@ -209,7 +195,7 @@ if (mysqli_num_rows($result)>0) {
         //Log the unsuccessful login attempt
         $query="INSERT INTO FailedLogins (CardNumber, Attempts, LastIP, LastAttemptTime) VALUES('".$_POST["cardNoField"]."', 1, '".$_SERVER['REMOTE_ADDR']."', NOW())";
 
-        if (mysqli_connect_errno($con))  {
+        if (mysqli_connect_errno())  {
           echo "Failed to connect to MySQL: " . mysqli_connect_error();
         }
         $result=mysqli_query($con,$query);
@@ -227,7 +213,7 @@ if (mysqli_num_rows($result)>0) {
 
 /* If we can't match the card number to a library, return an error to that effect. */
 } else {
-  $data = array("error" => true, "errorMsg" => "Unknown card number");
+  $data = ["error" => true, "errorMsg" => "Unknown card number"];
   $_SESSION['error']=true;
   $_SESSION['errorMsg']='Unknown card number.';
   $_SESSION['libraryData']=$data;
