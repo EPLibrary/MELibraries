@@ -16,6 +16,8 @@ include '../melibraries-db-config.php';
 
 <p>General usage statistics for the ME Libraries service can be found on this page.</p>
 
+<a href="stats_by_month.php">Download CSV of Data By Month</a>
+
 <?php
 
 // Count the number of memberships for each library. This is the number of times that each library has been joined.
