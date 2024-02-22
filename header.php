@@ -10,54 +10,48 @@ $_SESSION['views']=1;
 //echo "Views=". $_SESSION['views'];
 
 
-//Timeout the session if the user hasn't loaded a page in a few minutes
-if (!isset($_SESSION['timeout_idle']) || basename((string) $_SERVER['PHP_SELF']) != 'get_info.php') {
+// Define an array of pages that don't need session checks
+$exemptPages = ['logout.php', 'index.php', 'privacy.php', 'help.php', 'stats.php', 'stats_by_month.php', 'participating.php'];
+
+// Get the basename of the current script
+$currentPage = basename((string) $_SERVER['PHP_SELF']);
+
+// Timeout the session if the user hasn't loaded a page in a few minutes
+if (!isset($_SESSION['timeout_idle']) || $currentPage != 'get_info.php') {
     $_SESSION['timeout_idle'] = time() + MAX_IDLE_TIME;
 } elseif ($_SESSION['timeout_idle'] < time()) {
-        //destroy session
+    // Destroy session
     session_destroy();
-    if (basename((string) $_SERVER['PHP_SELF']) != 'index.php'
-      && basename((string) $_SERVER['PHP_SELF']) != 'privacy.php'
-      && basename((string) $_SERVER['PHP_SELF']) != 'help.php'
-      && basename((string) $_SERVER['PHP_SELF']) != 'stats.php'
-      && basename((string) $_SERVER['PHP_SELF']) != 'participating.php') {
-      header("Location: index.php?timeout");
+    if (!in_array($currentPage, $exemptPages)) {
+        header("Location: index.php?timeout");
+        exit; // Ensure no further code is executed after a redirect
     }
-    } else {$_SESSION['timeout_idle'] = time() + MAX_IDLE_TIME;}
+} else {
+    $_SESSION['timeout_idle'] = time() + MAX_IDLE_TIME;
+}
 
-//Requires the user's IP to match the one that the session was started with
+// Requires the user's IP to match the one that the session was started with
 if (!isset($_SESSION['originating_ip'])) {
-  $_SESSION['originating_ip']=$_SERVER['REMOTE_ADDR'];
-}elseif ($_SESSION['originating_ip']!=$_SERVER['REMOTE_ADDR']) {
-    session_destroy();//Hasta la vista, baby
-};
+    $_SESSION['originating_ip'] = $_SERVER['REMOTE_ADDR'];
+} elseif ($_SESSION['originating_ip'] != $_SERVER['REMOTE_ADDR']) {
+    session_destroy(); // Hasta la vista, baby
+    exit; // Prevent further execution after session destruction
+}
 
+// Ensure the user has agreed to our terms before allowing them in
+if (!isset($_SESSION['agree']) && !in_array($currentPage, $exemptPages) && $currentPage != 'welcome.php') {
+    header("Location: welcome.php");
+    exit; // Ensure no further code is executed after a redirect
+}
 
-//Ensure the user has agreed to our terms before allowing them in.
-if (!isset($_SESSION['agree'])
-  && basename((string) $_SERVER['PHP_SELF']) != 'logout.php'
-  && basename((string) $_SERVER['PHP_SELF'])!= 'index.php'
-  && basename((string) $_SERVER['PHP_SELF']) != 'privacy.php'
-  && basename((string) $_SERVER['PHP_SELF']) != 'help.php'
-  && basename((string) $_SERVER['PHP_SELF']) != 'stats.php'
-  && basename((string) $_SERVER['PHP_SELF']) != 'participating.php'
-  && basename((string) $_SERVER['PHP_SELF'])!= 'welcome.php') {
-  header("Location: welcome.php");
+// Kick the user back to the login screen if they don't have a customer array (and thus haven't successfully logged in)
+// Informational pages are exempted from this.
+if (!isset($_SESSION['customer']) && !in_array($currentPage, $exemptPages)) {
+    header("Location: index.php");
+    exit; // Ensure no further code is executed after a redirect
 }
 
 
-//Kick the user back to the login screen if they don't have a customer array (and thus haven't successfully logged in)
-//Informational pages are exempted from this.
-if (!isset($_SESSION['customer'])
-  && basename((string) $_SERVER['PHP_SELF']) != 'logout.php'
-  && basename((string) $_SERVER['PHP_SELF']) != 'privacy.php'
-  && basename((string) $_SERVER['PHP_SELF']) != 'help.php'
-  && basename((string) $_SERVER['PHP_SELF']) != 'stats.php'
-  && basename((string) $_SERVER['PHP_SELF']) != 'participating.php'
-  && basename((string) $_SERVER['PHP_SELF']) != 'index.php') {
-  header("Location: index.php");
-  die();
-}
 ?>
 <!DOCTYPE html>
 <html>
