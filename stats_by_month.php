@@ -106,6 +106,8 @@ echo '
     <div class="subContent">
     <h2 style="margin-bottom:20px;">ME Libraries Statistics</h2>
 
+    <p style="margin: 10px 0;"><a href="stats_by_month_csv.php">Download CSV File</a></p>
+
     <form method="post">
         <label for="library">Choose a library:</label>
         <select name="library" id="library">

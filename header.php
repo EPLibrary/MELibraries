@@ -11,7 +11,16 @@ $_SESSION['views']=1;
 
 
 // Define an array of pages that don't need session checks
-$exemptPages = ['logout.php', 'index.php', 'privacy.php', 'help.php', 'stats.php', 'stats_by_month.php', 'participating.php'];
+$exemptPages = [
+    'logout.php',
+    'index.php',
+    'privacy.php',
+    'help.php',
+    'stats.php',
+    'stats_by_month.php',
+    'stats_by_month_csv.php',
+    'participating.php',
+];
 
 // Get the basename of the current script
 $currentPage = basename((string) $_SERVER['PHP_SELF']);

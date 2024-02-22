@@ -16,7 +16,7 @@ include '../melibraries-db-config.php';
 
 <p>General usage statistics for the ME Libraries service can be found on this page.</p>
 
-<a href="stats_by_month.php">Download CSV of Data By Month</a>
+<a href="stats_by_month.php">View Data By Month</a>
 
 <?php
 
