@@ -39,7 +39,7 @@ if (!$result) {
 }
 
 // Define the filename for the CSV download
-$filename = "melibrary_stats_" . date('Ymd') . ".csv";
+$filename = "melibraries_stats_" . date('Ymd') . ".csv";
 
 // Set headers to download file rather than displayed
 header('Content-Type: text/csv');
