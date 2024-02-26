@@ -316,7 +316,7 @@ if ($result->num_rows > 0) {
   ?>
   <p style="margin-bottom:20px; margin-top:20px; text-align:center;">
   <?php
-    if ($error != true) {
+    if (isset($error) && $error != true) {
       if ($hasMembership) echo "Your record at ".$libraryComData["library_name"]." is now up to date";
       else  echo "You now have access to the ".$libraryComData["library_name"].".";
   ?>
