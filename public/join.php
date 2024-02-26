@@ -82,39 +82,37 @@ if ($result->num_rows > 0) {
   }
 }
 
-/* Do Socket connection and add user to foreign library 	*/
-  // Token/API Key
-  $authorityToken = "55u1dqzu4tfSk2V4u5PW6VTMqi9bzt2d";
-  $host = $libraryComData["library_server_url"];
-  $port = $libraryComData["library_server_port"];
+//Do Socket connection and add user to foreign library
+// Token/API Key
+$authorityToken = "55u1dqzu4tfSk2V4u5PW6VTMqi9bzt2d";
+$host = $libraryComData["library_server_url"];
+$port = $libraryComData["library_server_port"];
 
+// Hangup string we send when we're done
+$hangup = "XX0";
+// Buffer length in bytes
+$bufferlen = 2048;
 
+// Default error variable to false
+$error = false;
 
-  // Hangup string we send when we're done
-  $hangup = "XX0";
-  // Buffer length in bytes
-  $bufferlen = 2048;
+// JSON formatted parameters for socket with newline to terminate
+$message = [
+  "code" => "GET_STATUS",
+  "authorityToken" => $authorityToken,
+  "customer" => "null"
+];
 
-  // Default error variable to false
-  $error = false;
+// If GET_STATUS is not okay, do error handling
+$message = json_encode($message);
+//Add newline so the server knows when the message is done.
+$message .= "\n";
 
-  // JSON formatted parameters for socket with newline to terminate
-  $message = [
-      "code" => "GET_STATUS",
-      "authorityToken" => $authorityToken,
-      "customer" => "null"
-  ];
+// 10s Timeout
+set_time_limit(10);
 
-  // If GET_STATUS is not okay, do error handling
-  $message = json_encode($message);
-  //Add newline so the server knows when the message is done.
-  $message .= "\n";
-
-  // 10s Timeout
-  set_time_limit(10);
-
-  // Create Socket
-  $socket = socket_create(AF_INET, SOCK_STREAM, 0) or die("Could not create socket\n");
+// Create Socket
+$socket = socket_create(AF_INET, SOCK_STREAM, 0) or die("Could not create socket\n");
 
   // Connect to the server
   if ($result = socket_connect($socket, $host, $port) == false) {
@@ -135,15 +133,27 @@ if ($result->num_rows > 0) {
 
   //Testing with Card No: "21221012345678", Pin: "64058","Billy, Balzac"
   if ($hasMembership) {
-    $message = ["code" => "UPDATE_CUSTOMER", "authorityToken" => "55u1dqzu4tfSk2V4u5PW6VTMqi9bzt2d", "userId" => '', "pin" => '', "customer" => json_encode($_SESSION["customer"])];
+    $message = [
+        "code" => "UPDATE_CUSTOMER",
+        "authorityToken" => "55u1dqzu4tfSk2V4u5PW6VTMqi9bzt2d",
+        "userId" => '',
+        "pin" => '',
+        "customer" => json_encode($_SESSION["customer"])
+    ];
   } else {
-    $message = ["code" => "CREATE_CUSTOMER", "authorityToken" => "55u1dqzu4tfSk2V4u5PW6VTMqi9bzt2d", "userId" => '', "pin" => '', "customer" => json_encode($_SESSION["customer"])];
+    $message = [
+        "code" => "CREATE_CUSTOMER",
+        "authorityToken" => "55u1dqzu4tfSk2V4u5PW6VTMqi9bzt2d",
+        "userId" => '',
+        "pin" => '',
+        "customer" => json_encode($_SESSION["customer"])
+    ];
   }
 
-  $message = json_encode($message);
-  $message .= "\n";
+  $message = json_encode($message) . "\n";
 
-  if ($_SESSION['originating_ip'] == '10.3.0.79'){
+  // If we are from a particular developer's IP, we can see the message we are sending
+  if ($_SESSION['originating_ip'] == '10.3.0.79') {
     echo '<pre class="debug">';
     echo 'Sending Message:';
     print_r($message);
@@ -337,4 +347,5 @@ if ($result->num_rows > 0) {
 </div><!--subContent-->
 <div id="spacer"></div>
 </div><!--mainContent-->
+
 <?php include 'footer.php';
