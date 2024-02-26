@@ -1,9 +1,8 @@
 <?php
 
-use PHPMailer\PHPMailer\PHPMailer;
+require 'vendor/autoload.php'; // Use Composer's autoloader
 
-include_once("./vendor/phpmailer/phpmailer/src/PHPMailer.php");
-include_once("./vendor/phpmailer/phpmailer/src/SMTP.php");
+use PHPMailer\PHPMailer\PHPMailer;
 
 /**
  * Mail Class
