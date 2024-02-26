@@ -273,7 +273,7 @@ if ($result->num_rows > 0) {
       }
 
       if (!$mail_sent) {
-        echo("<p>$mail_error</p>");
+        echo("<p id=\"mail-error\">Error sending mail: $mail_error</p>");
       } else {
         echo('<p>You have been sent an email about the following:</p>');
       }
