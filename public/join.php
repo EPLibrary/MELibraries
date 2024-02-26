@@ -177,8 +177,6 @@ $socket = socket_create(AF_INET, SOCK_STREAM, 0) or die("Could not create socket
     die($data);
   }
 
-dd($serverReply);
-
   echo '<p class="debug"><b>Reply From Server:</b><br />'.$serverReply.'</p>';
   $serverReply = json_decode($serverReply, true);
 
@@ -318,6 +316,7 @@ dd($serverReply);
       printf('<p class="error" style="display:block;">SQL error: %s</p>\n', mysqli_error($con));
     }
   } else {
+    echo '<h2 class="error" style="clear:both;">Error: ' . $serverReply["code"] .'</h2>';
     echo '<p class="error" style="display:block;">'.$serverReply["responseMessage"].'</p>';
     $error = true;
   }
