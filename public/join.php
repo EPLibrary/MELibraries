@@ -44,21 +44,26 @@ $query = "SELECT
   m.user_record_index,
   m.library_record_index
   FROM user u
-  INNER JOIN membership m
-  ON u.record_index = m.user_record_index
-  WHERE u.userid='".$_SESSION["customer"]["ID"]."' AND m.library_record_index=".$_POST["joinLibrary"]."
-  OR (m.user_info_hash='".$_SESSION["customerHash"]."' AND m.library_record_index=".$_POST["joinLibrary"].")";
+  INNER JOIN membership m ON u.record_index = m.user_record_index
+  WHERE (u.userid=? AND m.library_record_index=?) OR (m.user_info_hash=? AND m.library_record_index=?)";
+
+$stmt = $con->prepare($query);
+
+$userId = $_SESSION["customer"]["ID"];
+$libraryIndex = $_POST["joinLibrary"];
+$customerHash = $_SESSION["customerHash"];
+
+$stmt->bind_param("ssss", $userId, $libraryIndex, $customerHash, $libraryIndex);
+
+$stmt->execute();
+
+$result = $stmt->get_result();
 
 $userExists = false;
 $hasMembership = false;
 $hasLostCard = false;
 $prevCard = '';
-// If it's a lost card, we need to determine the original userid so we can update that record.
 
-// Check to see if this user has a matching hash but no matching userid. If so, we most likely have a lost card.
-// Where's the userid for this libraryrecord?
-
-$result = mysqli_query($con, $query);
 if ($result->num_rows > 0) {
     $userInfo = mysqli_fetch_assoc($result);
     $hasMembership = true;
