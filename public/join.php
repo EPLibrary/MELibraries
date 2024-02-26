@@ -95,6 +95,9 @@ if ($result->num_rows > 0) {
   // Buffer length in bytes
   $bufferlen = 2048;
 
+  // Default error variable to false
+  $error = false;
+
   // JSON formatted parameters for socket with newline to terminate
   $message = [
       "code" => "GET_STATUS",
@@ -316,7 +319,7 @@ if ($result->num_rows > 0) {
   ?>
   <p style="margin-bottom:20px; margin-top:20px; text-align:center;">
   <?php
-    if (isset($error) && $error != true) {
+    if ($error != true) {
       if ($hasMembership) echo "Your record at ".$libraryComData["library_name"]." is now up to date";
       else  echo "You now have access to the ".$libraryComData["library_name"].".";
   ?>
