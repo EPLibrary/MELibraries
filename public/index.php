@@ -31,7 +31,7 @@ include 'header.php';
         <div class="formItem">
           <label class="login" for="cardNoField">Library card number</label>
           <input type="text" class="rounded" id="cardNoField" name="cardNoField" />
-          <div id="errorCardNo" class="error">Invalid card number</div>
+          <div id="errorCardNo" class="error" style="display:none;">Invalid card number</div>
         </div>
 
         <div class="formItem" style="margin-bottom:12px;">
