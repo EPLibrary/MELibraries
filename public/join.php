@@ -263,7 +263,7 @@ if ($result->num_rows > 0) {
       }
 
       try {
-        include_once("Mail.class.php");
+        include_once("../Mail.class.php");
         $mail = new Mail();
         $mail_sent = $mail->send($subject, $body, $to_email, $to_name);
         $mail_error = $mail->error_message;
