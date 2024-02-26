@@ -177,6 +177,8 @@ $socket = socket_create(AF_INET, SOCK_STREAM, 0) or die("Could not create socket
     die($data);
   }
 
+dd($serverReply);
+
   echo '<p class="debug"><b>Reply From Server:</b><br />'.$serverReply.'</p>';
   $serverReply = json_decode($serverReply, true);
 
