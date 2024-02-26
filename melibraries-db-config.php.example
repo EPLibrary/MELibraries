@@ -1,0 +1,18 @@
+<?php
+// Copy this file to melibraries-db-config.php, then change the
+// SITE_URL, db username, password, and database name to the correct values
+$con = mysqli_connect("SITE_URL","melibraries",'DB_PASSWORD',"melibraries");
+$mysqli = new mysqli("SITE_URL","melibraries",'DB_PASSWORD',"melibraries");
+
+function dd(...$variables) {
+    foreach ($variables as $variable) {
+        echo '<pre>';
+        var_dump($variable);
+        echo '</pre>';
+    }
+
+    die();
+}
+
+
+?>
