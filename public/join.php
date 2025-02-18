@@ -195,7 +195,7 @@ $socket = socket_create(AF_INET, SOCK_STREAM, 0) or die("Could not create socket
   if ($serverReply["code"] == "SUCCESS") {
     echo '<h2 class="green" style="clear:both;">';
     if ($hasMembership) echo "Thanks for the update";
-    else echo 'Welcome to the '.$libraryComData["library_name"];
+    else echo 'Welcome to '.$libraryComData["library_name"];
     echo '.</h2>';
 
     $operation = "U";
@@ -256,7 +256,7 @@ $socket = socket_create(AF_INET, SOCK_STREAM, 0) or die("Could not create socket
     $newNakedPin = preg_replace("/^ ?(\d+)[\a\s:](.*)/", '$1', (string) $serverReply["responseMessage"]);
     echo '<h2 class="green" style="clear:both;">';
 
-    echo 'Welcome to the '.$libraryComData["library_name"].'.</h2>';
+    echo 'Welcome to '.$libraryComData["library_name"].'.</h2>';
     $pinMessage = '<span style=\"color:red;\">Note:</span> your PIN for this library is different.<br />';
     $pinMessage.= 'Your pin for '.$libraryComData["library_name"].' has been set to: '.$newPin;
 
@@ -337,7 +337,7 @@ $socket = socket_create(AF_INET, SOCK_STREAM, 0) or die("Could not create socket
   <?php
     if ($error != true) {
       if ($hasMembership) echo "Your record at ".$libraryComData["library_name"]." is now up to date";
-      else  echo "You now have access to the ".$libraryComData["library_name"].".";
+      else  echo "You now have access to ".$libraryComData["library_name"].".";
   ?>
   <br />Click the logo below to visit their website, or <a class="green" href="signup.php">join another library</a>.</p>
 
