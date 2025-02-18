@@ -267,17 +267,21 @@ $socket = socket_create(AF_INET, SOCK_STREAM, 0) or die("Could not create socket
       $to_email = $_SESSION["customer"]["EMAIL"];
       $to_name = $_SESSION["customer"]["FIRSTNAME"]." ".$_SESSION["customer"]["LASTNAME"];
       $subject = 'You have joined '.$libraryComData["library_name"];
+      $body = "Hello " . $_SESSION["customer"]["FIRSTNAME"] . ",\r\n\r\n";
       $body = "This is a friendly notice that the you now have joined ".$libraryComData["library_name"];
-      $body .= " and now have access to its collections with your home library card number!\n";
+      $body .= " and now have access to its collections with your home library card number!\r\n\r\n";
       $body .= "Visit ".$libraryComData["library_name"]." at ".$libraryComData["library_url"];
 
       //Add a comment about the new PIN if it has been changed
       if ($serverReply["code"] == "PIN_CHANGE_REQUIRED") {
         //$newPin is set above
-        $body .= "\n\nNote: Your PIN for ".$libraryComData["library_name"]." is different.\nIt has been set to ".$newNakedPin.".";
+        $body .= "\r\n\r\nNote: Your PIN for ".$libraryComData["library_name"]." is different.\r\nIt has been set to ".$newNakedPin.".";
       }
 
-      try {
+      $body .= "\r\n\r\nBest regards,\r\nMe Libraries";
+
+
+        try {
         include_once("../Mail.class.php");
         $mail = new Mail();
         $mail_sent = $mail->send($subject, $body, $to_email, $to_name);
