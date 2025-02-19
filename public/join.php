@@ -295,7 +295,7 @@ $socket = socket_create(AF_INET, SOCK_STREAM, 0) or die("Could not create socket
       if (!$mail_sent) {
         echo("<p id=\"mail-error\">Error sending mail: $mail_error</p>");
       } else {
-        echo('<p>You have been sent an email about the following:</p>');
+        echo('<p style="text-align:center;">You have been sent an email about the following:</p>');
       }
     }//END - If email longer than 5 characters
 
