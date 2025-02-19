@@ -257,6 +257,7 @@ $socket = socket_create(AF_INET, SOCK_STREAM, 0) or die("Could not create socket
     echo '<h2 class="green" style="clear:both;">';
 
     echo 'Welcome to '.$libraryComData["library_name"].'.</h2>';
+    echo '<p style="text-align:center;">You now have access to the '.$libraryComData["library_name"].'.</p>';
     $pinMessage = '<span style=\"color:red;\">Note:</span> your PIN for this library is different.<br />';
     $pinMessage.= 'Your pin for '.$libraryComData["library_name"].' has been set to: '.$newPin;
 
