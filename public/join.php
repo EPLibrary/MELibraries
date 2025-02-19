@@ -268,24 +268,30 @@ $socket = socket_create(AF_INET, SOCK_STREAM, 0) or die("Could not create socket
       $to_email = $_SESSION["customer"]["EMAIL"];
       $to_name = $_SESSION["customer"]["FIRSTNAME"]." ".$_SESSION["customer"]["LASTNAME"];
       $subject = 'You have joined '.$libraryComData["library_name"];
-      $body = "Hello " . $_SESSION["customer"]["FIRSTNAME"] . ",\r\n\r\n";
-      $body = "This is a friendly notice that the you now have joined ".$libraryComData["library_name"];
-      $body .= " and now have access to its collections with your home library card number!\r\n\r\n";
-      $body .= "Visit ".$libraryComData["library_name"]." at ".$libraryComData["library_url"];
+      $body = "<p>Hello " . $_SESSION["customer"]["FIRSTNAME"] . ",</p>";
+      $altBody = "Hello " . $_SESSION["customer"]["FIRSTNAME"] . ",\r\n\r\n";
+      $body .= "<p>This is a friendly notice that you have joined <strong>" . $libraryComData["library_name"] . "</strong> and now have access to its collections with your home library card number!</p>";
+      $altBody = "This is a friendly notice that the you now have joined ".$libraryComData["library_name"];
+      $altBody .= " and now have access to its collections with your home library card number!\r\n\r\n";
+      $body .= "<p>Visit <a href='" . $libraryComData["library_url"] . "'>" . $libraryComData["library_name"] . "</a> for more details.</p>";
+      $altBody .= "Visit ".$libraryComData["library_name"]." at ".$libraryComData["library_url"];
 
       //Add a comment about the new PIN if it has been changed
       if ($serverReply["code"] == "PIN_CHANGE_REQUIRED") {
         //$newPin is set above
-        $body .= "\r\n\r\nNote: Your PIN for ".$libraryComData["library_name"]." is different.\r\nIt has been set to ".$newNakedPin.".";
+        $body .= "<p><strong>Note:</strong> Your PIN for ".$libraryComData["library_name"]." is different.</p>";
+        $body .= "<p>It has been set to: <strong>".$newPin."</strong></p>";
+        $altBody .= "\r\n\r\nNote: Your PIN for ".$libraryComData["library_name"]." is different.\r\nIt has been set to ".$newNakedPin.".";
       }
 
-      $body .= "\r\n\r\nBest regards,\r\nMe Libraries";
+      $body .= "<p>Best regards,<br />Me Libraries</p>";
+      $altBody .= "\r\n\r\nBest regards,\r\nMe Libraries";
 
 
         try {
         include_once("../Mail.class.php");
         $mail = new Mail();
-        $mail_sent = $mail->send($subject, $body, $to_email, $to_name);
+        $mail_sent = $mail->send($subject, $body,$altBody, $to_email, $to_name);
         $mail_error = $mail->error_message;
       } catch (Exception $e) {
         $mail_sent = false;

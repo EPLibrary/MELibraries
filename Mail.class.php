@@ -30,7 +30,7 @@ class Mail {
      * 
      * @return bool Whether the email has been sent successfully.
      */
-    public function send($subject, $body, $to_email, $to_name) {
+    public function send($subject, $body, $altBody, $to_email, $to_name) {
         
         // initialize PHPMailer
         $mail = new PHPMailer();
@@ -50,6 +50,7 @@ class Mail {
         $mail->isHTML(true);
         $mail->Subject = $subject;
         $mail->Body = $body;
+        $mail->AltBody = $altBody;
 
         // send the email
         $sent = $mail->send();
