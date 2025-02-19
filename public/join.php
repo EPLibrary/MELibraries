@@ -280,7 +280,7 @@ $socket = socket_create(AF_INET, SOCK_STREAM, 0) or die("Could not create socket
       if ($serverReply["code"] == "PIN_CHANGE_REQUIRED") {
         //$newPin is set above
         $body .= "<p><strong>Note:</strong> Your PIN for ".$libraryComData["library_name"]." is different.</p>";
-        $body .= "<p>It has been set to: <strong>".$newPin."</strong></p>";
+        $body .= "<p>It has been set to: <strong>".$newNakedPin."</strong></p>";
         $altBody .= "\r\n\r\nNote: Your PIN for ".$libraryComData["library_name"]." is different.\r\nIt has been set to ".$newNakedPin.".";
       }
 
