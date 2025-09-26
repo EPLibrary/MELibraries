@@ -78,6 +78,11 @@ $query="SELECT * FROM membership m
 
 $result = mysqli_query($con, $query);
 $numUpdates = mysqli_num_rows($result);
+// out of service messaging
+$outOfServiceLibraryNamesArray = [
+	"Strathcona County Library & Fort Saskatchewan Public Library",
+	"St. Albert Public Library"
+];
 if (mysqli_num_rows($result)>0) {
 	echo '<h2 class="blue" style="clear:both;">Update your information at these libraries:</h2>';
 	echo '<table class="libTable">';
@@ -96,6 +101,12 @@ if (mysqli_num_rows($result)>0) {
 			<a class="terms" href="<?=$row['library_policy_url']?>">Terms & Conditions</a>
 		</form>
 	</td>
+	<!-- if library name is in $outOfServiceLibraryNamesArray, show a message -->
+	<?php if (in_array($row['library_name'], $outOfServiceLibraryNamesArray)) { ?>
+		<td style="border:1px solid #000; padding: 10px;">
+			<p>This Library is not currently accepting ME registrations due to a technical issue. We apologize for the inconvenience.</p>
+		</td>
+	<?php } ?>
 	</tr>	
 
 
@@ -118,12 +129,6 @@ SELECT m.library_record_index from user u INNER JOIN membership m ON u.record_in
 WHERE u.userid='".$_SESSION["customer"]["ID"]."' OR m.user_info_hash='".$_SESSION["customerHash"]."')";
 
 $result = mysqli_query($con, $query);
-
-// out of service messaging
-$outOfServiceLibraryNamesArray = [
-	"Strathcona County Library & Fort Saskatchewan Public Library",
-	"St. Albert Public Library"
-];
 
 $numToJoin = mysqli_num_rows($result);
 if (mysqli_num_rows($result)>0) {
