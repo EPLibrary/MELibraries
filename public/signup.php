@@ -103,7 +103,7 @@ if (mysqli_num_rows($result)>0) {
 	</td>
 	<!-- if library name is in $outOfServiceLibraryNamesArray, show a message -->
 	<?php if (in_array($row['library_name'], $outOfServiceLibraryNamesArray)) { ?>
-		<td style="border:1px solid #000; padding: 10px;">
+		<td style="border:1px solid #FF0000; padding: 10px;">
 			<p>This Library is not currently accepting ME registrations due to a technical issue. We apologize for the inconvenience.</p>
 		</td>
 	<?php } ?>
@@ -150,7 +150,7 @@ if (mysqli_num_rows($result)>0) {
 		</td>
 		<!-- if library name is in $outOfServiceLibraryNamesArray, show a message -->
 		<?php if (in_array($row['library_name'], $outOfServiceLibraryNamesArray)) { ?>
-			<td style="border:1px solid #000; padding: 10px;">
+			<td style="border:1px solid #FF0000; padding: 10px;">
 				<p>This Library is not currently accepting ME registrations due to a technical issue. We apologize for the inconvenience.</p>
 			</td>
 		<?php } ?>
