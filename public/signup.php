@@ -119,6 +119,12 @@ WHERE u.userid='".$_SESSION["customer"]["ID"]."' OR m.user_info_hash='".$_SESSIO
 
 $result = mysqli_query($con, $query);
 
+// out of service messaging
+$outOfServiceLibraryNamesArray = [
+	"Strathcona County Library & Fort Saskatchewan Public Library",
+	"St. Albert Public Library"
+];
+
 $numToJoin = mysqli_num_rows($result);
 if (mysqli_num_rows($result)>0) {
 	echo '<h2 class="blue" style="clear:both;">Choose new libraries to join.</h2>';
@@ -137,6 +143,12 @@ if (mysqli_num_rows($result)>0) {
 				<a class="terms" href="<?=$row['library_policy_url']?>">Terms & Conditions</a>
 			</form>
 		</td>
+		<!-- if library name is in $outOfServiceLibraryNamesArray, show a message -->
+		<?php if (in_array($row['library_name'], $outOfServiceLibraryNamesArray)) { ?>
+			<td>
+				<p>This Library is not currently accepting ME registrations due to a technical issue. We apologize for the inconvenience.</p>
+			</td>
+		<?php } ?>
 		</tr>
 <?php
 		}//end hide if not disabled
