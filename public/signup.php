@@ -79,10 +79,7 @@ $query="SELECT * FROM membership m
 $result = mysqli_query($con, $query);
 $numUpdates = mysqli_num_rows($result);
 // out of service messaging
-$outOfServiceLibraryNamesArray = [
-	"Strathcona County Library & Fort Saskatchewan Public Library",
-	"St. Albert Public Library"
-];
+$outOfServiceLibraryNamesArray = [];
 if (mysqli_num_rows($result)>0) {
 	echo '<h2 class="blue" style="clear:both;">Update your information at these libraries:</h2>';
 	echo '<table class="libTable">';
